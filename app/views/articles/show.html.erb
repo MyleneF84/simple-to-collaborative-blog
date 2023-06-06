@@ -1,0 +1,14 @@
+<h1><%= @article.title %></h1>
+
+<p><%= @article.content %></p>
+
+<p>Posted <%= time_ago_in_words(@article.created_at) %> ago</p>
+
+<div class="d-flex">
+  <%= link_to "Edit", edit_article_path %> |
+  <%= button_to "Delete", @article, method: :delete %>
+  <%= link_to "Back", articles_path %>
+</div>
+<hr>
+
+

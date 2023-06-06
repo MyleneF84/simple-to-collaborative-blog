@@ -1,0 +1,12 @@
+<h1>See all articles</h1>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, article_path(article) %> -
+      <%= link_to article.author.full_name, author_path(article.author) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Create Article", new_article_path, class:"btn btn-primary" %>
