@@ -1,0 +1,9 @@
+<h1>Trending articles</h1>
+
+<ul>
+  <% @articles.each do |article| %>
+  <li> <%= article.title %>, <%= article.author.full_name %> </li>
+  <% end %>
+</ul>
+
+<%= link_to "All articles", articles_path %>
