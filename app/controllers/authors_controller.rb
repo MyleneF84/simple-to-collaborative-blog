@@ -1,4 +1,14 @@
 class AuthorsController < ApplicationController
+
+  def new
+    @author = Author.new
+  end
+  
+  def show
+    @author = Author.find(params[:id])
+    @article = Article.where(author_id: @author.id).first
+  end
+
   def create
     @author = Author.new(author_params)
     if @author.save

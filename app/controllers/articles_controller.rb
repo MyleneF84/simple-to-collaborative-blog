@@ -12,6 +12,8 @@ class ArticlesController < ApplicationController
     if params[:author_id]
       @author = Author.find(params[:author_id])
       @article.original_author = @author.id
+    else
+      @author = Author.new
     end
   end
 
@@ -20,7 +22,7 @@ class ArticlesController < ApplicationController
     if article_params[:original_author].present?
       @article.author_id = article_params[:original_author]
     else
-      Author.create!(first_name: article_params[:new_author_fn], last_name: article_params[:new_author_ln])
+      @author = Author.create!(first_name: params[:author][:first_name], last_name: params[:author][:last_name])
       @article.author_id = Author.last.id
     end
     if @article.save!
@@ -52,6 +54,6 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :author_id, :original_author, :new_author_fn, :new_author_ln)
+    params.require(:article).permit(:title, :content, :author_id, :original_author)
   end
 end

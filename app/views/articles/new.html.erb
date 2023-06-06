@@ -8,11 +8,8 @@
       <div class="col">
         <%= f.input :original_author, collection: Author.all,label_method: :full_name, value_method: :id, label: "Already an author?", prompt: "Find your name" %>
       </div>
-      <div class="col-3">
-        <%= f.input :new_author_fn %>
-      </div>
-      <div class="col-3">
-        <%= f.input :new_author_ln %>
+      <div class="col">
+        <%= render "authors/form", article: @article, author: @author %>
       </div>
     </div>
   <% end %>

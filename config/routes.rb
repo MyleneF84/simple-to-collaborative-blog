@@ -10,5 +10,9 @@ Rails.application.routes.draw do
     resources :authors
   end
 
+  resources :authors do
+    resources :articles
+  end
+
   resources :authors
 end
