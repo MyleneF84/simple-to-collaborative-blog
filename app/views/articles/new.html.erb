@@ -1,6 +1,7 @@
 <%= simple_form_for @article do |f| %>
   <%= f.input :title %>
   <%= f.input :content %>
+  <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
   <% if params[:author_id]%>
     <%= f.input :original_author, collection: Author.where(id: params[:author_id]), label_method: :full_name, value_method: :id, include_blank: false %>
   <% else %>

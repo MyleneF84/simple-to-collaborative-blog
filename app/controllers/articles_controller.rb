@@ -1,6 +1,10 @@
 class ArticlesController < ApplicationController
   def index
     @articles = Article.includes(:authors).all
+    if params[:tag]
+      @title_tags = true
+      @articles = Article.includes(:authors).tagged_with(params[:tag])
+    end
   end
 
   def show
@@ -55,6 +59,6 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :original_author)
+    params.require(:article).permit(:title, :content, :original_author, tag_list: [])
   end
 end

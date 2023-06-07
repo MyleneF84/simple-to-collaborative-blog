@@ -1,5 +1,6 @@
 <%= simple_form_for [@article] do |f| %>
   <%= f.input :title %>
   <%= f.input :content %>
+  <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
   <%= f.submit "Update", class:"btn btn-primary" %>
 <% end %>
