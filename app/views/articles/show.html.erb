@@ -13,3 +13,18 @@
   <%= link_to "Back", articles_path %>
 </div>
 <hr>
+
+<div>
+  <p>Comments : </p>
+    <ul>
+    <% @article.comments.each do |comment| %>
+      <li>
+      <%= comment.content %> - <%= comment.author.full_name %> - <%= link_to "🗑", article_comment_path(@article, comment), data: {turbo_method: :delete}%>
+      </li>
+      <% end %>
+    </ul>
+</div>
+
+<div>
+  <%= render "comments/form", article: @article, comment: @comment %>
+</div>

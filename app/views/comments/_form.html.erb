@@ -1,0 +1,5 @@
+<%= simple_form_for (@article ? [@article, @comment] : [@author, @comment]) do |f| %>
+  <%= f.input :content, label: "Your comment :" %>
+  <%= f.collection_select :author_id, Author.all, :id, :full_name %>
+  <%= f.submit  %>
+<% end %>

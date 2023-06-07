@@ -6,10 +6,6 @@ Rails.application.routes.draw do
 
   resources :articles
 
-  resources :articles do
-    resources :authors
-  end
-
   resources :authors do
     resources :articles
   end
@@ -18,5 +14,13 @@ Rails.application.routes.draw do
     resources :contributions
   end
 
-  resources :authors
+  resources :articles do
+    resources :comments
+  end
+
+  resources :authors do
+    resources :comments
+  end
+
+  resources :authors, only: %i[show new destroy]
 end
