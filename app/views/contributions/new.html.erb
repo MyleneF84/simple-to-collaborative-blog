@@ -1,0 +1,5 @@
+<%= simple_form_for [@article, @contribution] do |f| %>
+  <%= f.input :content, as: :text, input_html: {value: @article.content} %>
+  <%= f.collection_select :author_id, Author.all, :id, :full_name %>
+  <%= f.submit "Submit" %>
+<% end %>

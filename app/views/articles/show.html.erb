@@ -2,7 +2,10 @@
 
 <p><%= @article.content %></p>
 
+<p><i><%= pluralize @article.contributions.count, "contribution" %></i></p>
 <p>Posted <%= time_ago_in_words(@article.created_at) %> ago</p>
+
+<%= link_to "Add a contribution", new_article_contribution_path(@article) %>
 
 <div class="d-flex">
   <%= link_to "Edit", edit_article_path %> |
@@ -10,5 +13,3 @@
   <%= link_to "Back", articles_path %>
 </div>
 <hr>
-
-

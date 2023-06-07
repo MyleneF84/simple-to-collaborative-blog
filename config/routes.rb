@@ -14,5 +14,9 @@ Rails.application.routes.draw do
     resources :articles
   end
 
+  resources :articles do
+    resources :contributions
+  end
+
   resources :authors
 end
