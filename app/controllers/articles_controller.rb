@@ -19,13 +19,13 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
-    if article_params[:original_author].present?
-      @article.author_id = article_params[:original_author]
-    else
-      @author = Author.create!(first_name: params[:author][:first_name], last_name: params[:author][:last_name])
-      @article.author_id = Author.last.id
-    end
-    if @article.save!
+    if @article.save
+      if article_params[:original_author].present?
+        Contribution.create!(author_id: article_params[:original_author], article_id: @article.id)
+      else
+        Author.create!(first_name: params[:author][:first_name], last_name: params[:author][:last_name])
+        Contribution.create!(author_id: Author.last.id, article_id: @article.id)
+      end
       redirect_to articles_path
     else
       render :new, status: :unprocessable_entity
@@ -54,6 +54,6 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :author_id, :original_author)
+    params.require(:article).permit(:title, :content, :original_author)
   end
 end

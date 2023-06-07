@@ -1,7 +1,11 @@
 <h1><%= @author.first_name %> <%= @author.last_name %></h1>
 
+<p><%= pluralize @author.articles.count, "article" %> :</p>
+
 <ul>
-  <li><%= link_to @article.title, article_path(@article) %></li>
+  <% @author.articles.each do |article| %>
+    <li><%= link_to article.title, article_path(article) %></li>
+  <% end %>
 </ul>
 
 <%= link_to "New article", new_author_article_path(@author)  %>
