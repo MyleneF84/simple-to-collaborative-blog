@@ -13,10 +13,28 @@
   </div>
 </div>
 
-<ul>
+<div class="row">
   <% @articles.each do |article| %>
-  <li> <%= article.title %>, <%= article.author.full_name %> </li>
+    <div class="col-sm-3 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= link_to article.title, article_path(article) %> </h5>
+          <p class="card-text">
+            <% if article.authors.empty? %>
+              <%= "Utilisateur desactivé" %>
+            <% else %>
+              <% article.authors.uniq.each do |author| %>
+                <%= link_to author.full_name, author_path(author) %>
+              <% end %>
+            <% end %>
+          </p>
+          <p>Posted <%= time_ago_in_words(article.created_at) %> ago</p>
+          <p class="card-tags"> <%= article.tags.map(&:name).join(", ") %> </p>
+        </div>
+      </div>
+    </div>
   <% end %>
-</ul>
+</div>
 
-<%= link_to "All articles", articles_path %>
+<%= link_to "Create new article", new_article_path, class:"btn btn-primary mt-3"  %>
+<%= link_to "See all articles", articles_path  %>

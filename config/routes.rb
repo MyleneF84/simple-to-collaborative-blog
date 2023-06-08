@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :articles do
-    resources :contributions
+    resources :contributions, only: %i[new create]
   end
 
   resources :articles do
