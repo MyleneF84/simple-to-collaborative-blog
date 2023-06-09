@@ -5,4 +5,24 @@ class CommentPolicy < ApplicationPolicy
     #   scope.all
     # end
   end
+
+  def create?
+    true
+  end
+
+  def new?
+    create?
+  end
+
+  # def update?
+  #   record.authors.include?(author)
+  # end
+
+  # def edit?
+  #   update?
+  # end
+
+  def destroy?
+    record.author == author
+  end
 end
