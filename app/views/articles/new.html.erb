@@ -2,16 +2,5 @@
   <%= f.input :title %>
   <%= f.input :content %>
   <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
-  <% if params[:author_id]%>
-    <%= f.input :original_author, collection: Author.where(id: params[:author_id]), label_method: :full_name, value_method: :id, include_blank: false %>
-  <% else %>
-    <div class="row g-3">
-      <div class="col">
-        <%= f.input :original_author, collection: Author.all,label_method: :full_name, value_method: :id, label: "Already an author?", prompt: "Find your name" %>
-      </div>
-      <div class="col">
-        <%= render "authors/form", article: @article, author: @author %>
-      </div>
-    </div>
-  <% end %>
+  <%= f.submit "Create", class: "btn btn-primary" %>
 <% end %>

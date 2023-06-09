@@ -1,16 +1,21 @@
 class AuthorsController < ApplicationController
+  skip_before_action :authenticate_author!, only: :show
+
 
   def new
     @author = Author.new
+    authorize @author
   end
 
   def show
     @author = Author.find(params[:id])
+    authorize @author
     @comment = Comment.new
   end
 
   def create
     @author = Author.new(author_params)
+    authorize @author
     if @author.save
       redirect_to author_path(@author)
     else

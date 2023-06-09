@@ -8,8 +8,10 @@
   <% end %>
 </ul>
 
-<%= link_to "New article", new_author_article_path(@author)  %>
-<%= link_to "Delete", author_path(@author), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+<% unless @author == @curent_author %>
+  <%= link_to "New article", new_author_article_path(@author)  %>
+<% end %>
+<%= link_to "Delete", author_path(@author), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy?%>
 
 <hr>
 <div>
