@@ -2,8 +2,9 @@ class CommentsController < ApplicationController
   before_action :set_article, only: %i[new]
 
   def new
-    @author = Author.find(params[:author_id])
     @comment = Comment.new
+    @comment.author = current_author
+    authorize @comment
   end
 
   def create
@@ -26,6 +27,8 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
+    authorize @comment
+
     @comment.destroy
     if params[:article_id].present?
       set_article
@@ -49,6 +52,8 @@ class CommentsController < ApplicationController
   def set_article_comment
     @article = Article.find(params[:article_id])
     @comment = Comment.new(comment_params)
+    authorize @comment
+    @comment.author_id = current_author.id
     @comment.commentable_type = "Article"
     @comment.commentable_id = params[:article_id]
   end
@@ -56,6 +61,8 @@ class CommentsController < ApplicationController
   def set_author_comment
     @author = Author.find(params[:author_id])
     @comment = Comment.new(comment_params)
+    authorize @comment
+    @comment.author_id = current_author.id
     @comment.commentable_type = "Author"
     @comment.commentable_id = params[:author_id]
   end
