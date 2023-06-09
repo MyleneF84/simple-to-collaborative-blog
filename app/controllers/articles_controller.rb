@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  skip_before_action :authenticate_author!, only: %i[index show]
+
   def index
     @articles = Article.includes(:authors).all
     if params[:tag]
