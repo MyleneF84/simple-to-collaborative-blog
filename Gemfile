@@ -54,6 +54,7 @@ gem 'acts-as-taggable-on'
 gem "devise"
 gem "autoprefixer-rails"
 gem "font-awesome-sass"
+gem "pundit"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
