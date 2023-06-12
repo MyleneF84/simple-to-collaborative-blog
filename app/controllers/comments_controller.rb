@@ -1,5 +1,9 @@
 class CommentsController < ApplicationController
-  before_action :set_article, only: %i[new]
+  skip_before_action :authenticate_author!, only: :create
+  before_action :set_article, only: :new
+  before_action :set_commentable, only: :create
+  before_action :check_current_author, only: :create
+
 
   def new
     @comment = Comment.new
@@ -8,12 +12,6 @@ class CommentsController < ApplicationController
   end
 
   def create
-    if params[:article_id].present?
-      set_article_comment
-    else
-      set_author_comment
-    end
-
     if @comment.save
       if params[:article_id].present?
         redirect_to article_path(@article)
@@ -49,21 +47,37 @@ class CommentsController < ApplicationController
     @article = Article.find(params[:article_id])
   end
 
+  def set_commentable
+    if params[:article_id].present?
+      set_article_comment
+    else
+      set_author_comment
+    end
+  end
+
   def set_article_comment
     @article = Article.find(params[:article_id])
     @comment = Comment.new(comment_params)
     authorize @comment
-    @comment.author_id = current_author.id
-    @comment.commentable_type = "Article"
-    @comment.commentable_id = params[:article_id]
+    @comment.author_id = current_author.id if current_author
+    @comment.commentable = @article
   end
 
   def set_author_comment
     @author = Author.find(params[:author_id])
     @comment = Comment.new(comment_params)
     authorize @comment
-    @comment.author_id = current_author.id
-    @comment.commentable_type = "Author"
-    @comment.commentable_id = params[:author_id]
+    @comment.author_id = current_author.id if current_author
+    @comment.commentable = @author
+  end
+
+
+  def check_current_author
+    if !current_author
+      session[:comment_content] = comment_params[:content]
+      session[:commentable_type] = @comment.commentable_type
+      session[:commentable_id] = @comment.commentable_id
+      authenticate_author!
+    end
   end
 end

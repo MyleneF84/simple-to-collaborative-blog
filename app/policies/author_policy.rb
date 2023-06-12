@@ -18,6 +18,10 @@ class AuthorPolicy < ApplicationPolicy
     create?
   end
 
+  def new_article?
+    record == author
+  end
+
   # def update?
   #   record.authors.include?(author)
   # end
