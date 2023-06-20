@@ -1,4 +1,4 @@
-class AuthorPolicy < ApplicationPolicy
+class Authorspace::AuthorPolicy < Authorspace::BasePolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
@@ -19,10 +19,7 @@ class AuthorPolicy < ApplicationPolicy
   end
 
   def new_article?
-    # record == author
-    false
-
-    # user != nil && record == current_author
+    record == author
   end
 
   # def update?
@@ -34,9 +31,6 @@ class AuthorPolicy < ApplicationPolicy
   # end
 
   def destroy?
-    # record == author
-    false
-    # user != nil && record == current_author
-
+    record == author
   end
 end

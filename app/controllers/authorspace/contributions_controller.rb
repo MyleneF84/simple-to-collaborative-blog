@@ -1,5 +1,5 @@
-class ContributionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: :new
+class Authorspace::ContributionsController < Authorspace::BaseController
+  skip_before_action :authenticate_author!, only: :new
 
   def new
     @article = Article.find(params[:article_id])
@@ -12,10 +12,11 @@ class ContributionsController < ApplicationController
     @contribution = Contribution.new(contribution_params)
     authorize @contribution
     @contribution.article = @article
+    @contribution.author = current_author
     if @contribution.save
       @article.content = @contribution.content
       @article.save
-      redirect_to article_path(@article)
+      redirect_to authorspace_article_path(@article)
     else
       render :new, status: :unprocessable_entity
     end

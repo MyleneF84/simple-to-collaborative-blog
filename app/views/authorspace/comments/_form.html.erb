@@ -1,0 +1,4 @@
+<%= simple_form_for (@article ? [:authorspace, @article, @comment] : [:authorspace, @author, @comment]) do |f| %>
+  <%= f.input :content, label: "Your comment :" %>
+  <%= f.submit  %>
+<% end %>

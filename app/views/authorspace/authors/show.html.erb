@@ -1,0 +1,30 @@
+<h1><%= @author.first_name %> <%= @author.last_name %> </h1>
+<p><%= @author.email %></p>
+<p><%= pluralize @author.articles.count, "article" %> :</p>
+
+<ul>
+  <% @author.articles.each do |article| %>
+    <li><%= link_to article.title, authorspace_article_path(article) %></li>
+  <% end %>
+</ul>
+
+
+<% if policy(@author).new_article? %>
+  <%= link_to "New article", new_authorspace_author_article_path(@author)  %>
+<% end %>
+<%= link_to "Delete", authorspace_author_path(@author), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy?%>
+
+<hr>
+<div>
+  <p>Comments : </p>
+    <ul>
+    <% @author.comments.each do |comment| %>
+      <li><%= comment.content %> - <%= comment.author.full_name %> &nbsp <%= link_to "🗑", authorspace_author_comment_path(@author, comment), data: {turbo_method: :delete} if policy(comment).destroy? %></li>
+      <% end %>
+    </ul>
+</div>
+<div>
+  <%= render "authorspace/comments/form", author: @author, comment: @comment %>
+</div>
+
+<%= link_to "All articles", authorspace_articles_path  %>

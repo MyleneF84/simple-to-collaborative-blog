@@ -1,0 +1,6 @@
+<%= simple_form_for [:authorspace, @article] do |f| %>
+  <%= f.input :title %>
+  <%= f.input :content %>
+  <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
+  <%= f.submit "Create", class: "btn btn-primary" %>
+<% end %>

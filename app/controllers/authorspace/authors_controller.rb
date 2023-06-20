@@ -1,15 +1,15 @@
-class AuthorsController < ApplicationController
-  skip_before_action :authenticate_user!, only: :show
+class Authorspace::AuthorsController < Authorspace::BaseController
+  skip_before_action :authenticate_author!, only: :show
 
   def new
     @profile = Profile.new
     @author = Author.new
-    authorize @author
+    authorize [:authorspace, @author]
   end
 
   def show
     @author = Author.find(params[:id])
-    authorize @author
+    authorize [:authorspace, @author]
     @comment = Comment.new
   end
 
