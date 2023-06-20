@@ -1,4 +1,4 @@
-<%= simple_form_for [@article, @contribution] do |f| %>
+<%= simple_form_for [:authorspace, @article, @contribution] do |f| %>
   <%= f.input :content, as: :text, input_html: {value: @article.content} %>
   <%= f.submit "Submit" %>
 <% end %>

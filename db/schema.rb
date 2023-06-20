@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_135110) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_12_192950) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -19,8 +19,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_135110) do
   end
 
   create_table "authors", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", null: false
@@ -28,7 +26,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_135110) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer "profile_id"
     t.index ["email"], name: "index_authors_on_email", unique: true
+    t.index ["profile_id"], name: "index_authors_on_profile_id"
     t.index ["reset_password_token"], name: "index_authors_on_reset_password_token", unique: true
   end
 
@@ -50,6 +50,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_135110) do
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_contributions_on_article_id"
     t.index ["author_id"], name: "index_contributions_on_author_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -83,8 +90,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_135110) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "profile_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["profile_id"], name: "index_users_on_profile_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "authors", "profiles"
   add_foreign_key "comments", "authors"
   add_foreign_key "contributions", "articles"
   add_foreign_key "contributions", "authors"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "users", "profiles"
 end

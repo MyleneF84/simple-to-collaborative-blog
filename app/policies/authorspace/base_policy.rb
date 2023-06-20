@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-class ApplicationPolicy
+class Authorspace::BasePolicy < ApplicationPolicy
   attr_reader :author, :record
 
   def initialize(author, record)
@@ -57,4 +55,5 @@ class ApplicationPolicy
 
     attr_reader :author, :scope
   end
+
 end
