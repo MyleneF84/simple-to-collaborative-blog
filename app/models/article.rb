@@ -10,14 +10,19 @@ class Article < ApplicationRecord
   acts_as_taggable_on :tags
 
   def names_list
-    names = authors.map(&:full_name).uniq
-    case names.count
+    # names = authors.map(&:full_name).uniq
+    case authors.count
       when 1
-        "#{names.first}"
+        # "#{authors.first}"
+        [authors.first]
       when 2
-        "#{names.first} and #{names.last}"
+        # "#{authors.first} and #{authors.last}"
+        [authors.first, ' & ', authors.last]
       else
-        "#{names.first}, #{names.second} and #{x = names.count - 2} other#{ x > 1 ? "s" : ""}"
+        # "#{authors.first}, #{authors.second} and #{x = authors.count - 2} other#{ x > 1 ? "s" : ""}"
+        x = authors.count - 2
+        rest = " #{x} other#{ x > 1 ? "s" : ""}"
+        [authors.first, ', ', authors.second, ' &', rest]
       end
   end
 end

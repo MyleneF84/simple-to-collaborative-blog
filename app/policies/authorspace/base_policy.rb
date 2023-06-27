@@ -1,4 +1,4 @@
-class Authorspace::BasePolicy 
+class Authorspace::BasePolicy
   attr_reader :author, :record
 
   def initialize(author, record)
@@ -34,9 +34,10 @@ class Authorspace::BasePolicy
     false
   end
 
-  def home
+  def home?
     false
   end
+
 
   class Scope
     def initialize(author, scope)
