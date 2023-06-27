@@ -1,12 +1,12 @@
 class Authorspace::CommentsController < Authorspace::BaseController
-  skip_before_action :authenticate_author!, only: :create
+  # skip_before_action :authenticate_author!, only: :create
   before_action :set_article, only: :new
   before_action :set_commentable, only: :create
   before_action :check_current_author, only: :create
 
   def new
     @comment = Comment.new
-    @comment.author = current_author
+    @comment.user = current_author
     authorize @comment
   end
 
@@ -18,7 +18,7 @@ class Authorspace::CommentsController < Authorspace::BaseController
         redirect_to authorspace_author_path(@author)
       end
     else
-      render :new
+      redirect_to request.referrer
     end
   end
 
@@ -39,7 +39,7 @@ class Authorspace::CommentsController < Authorspace::BaseController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :commentable_type, :commentable_id, :author_id)
+    params.require(:comment).permit(:content, :commentable_type, :commentable_id, :user_id)
   end
 
   def set_article
@@ -57,16 +57,16 @@ class Authorspace::CommentsController < Authorspace::BaseController
   def set_article_comment
     @article = Article.find(params[:article_id])
     @comment = Comment.new(comment_params)
-    authorize [:authorspace, @comment]
-    @comment.author_id = current_author.id if current_author
+    authorize @comment
+    @comment.user_id = current_author.id if current_author
     @comment.commentable = @article
   end
 
   def set_author_comment
     @author = Author.find(params[:author_id])
     @comment = Comment.new(comment_params)
-    authorize [:authorspace, @comment]
-    @comment.author_id = current_author.id if current_author
+    authorize @comment
+    @comment.user_id = current_author.id if current_author
     @comment.commentable = @author
   end
 

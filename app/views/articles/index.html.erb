@@ -20,9 +20,10 @@
         <% if article.authors.empty? %>
           <small><%= "Deactivated user" %></small>
         <% else %>
-          <% article.authors.uniq.each do |author| %>
-            <%= link_to author.full_name, author_path(author) %>
-          <% end %>
+          <%# article.authors.uniq.each do |author| %>
+            <%#= link_to author.full_name, author_path(author) %>
+          <%# end %>
+          <%= article.names_list %>
         <% end %>
     </li>
   <% end %>

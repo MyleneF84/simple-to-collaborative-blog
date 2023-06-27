@@ -1,13 +1,13 @@
 class CommentsController < ApplicationController
-  skip_before_action :authenticate_author!, only: :create
+  skip_before_action :authenticate_user!, only: :create
   before_action :set_article, only: :new
   before_action :set_commentable, only: :create
-  before_action :check_current_author, only: :create
+  before_action :check_current_user, only: :create
 
 
   def new
     @comment = Comment.new
-    @comment.author = current_author
+    @comment.user = current_user
     authorize @comment
   end
 
@@ -40,7 +40,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:content, :commentable_type, :commentable_id, :author_id)
+    params.require(:comment).permit(:content, :commentable_type, :commentable_id, :user_id)
   end
 
   def set_article
@@ -59,7 +59,7 @@ class CommentsController < ApplicationController
     @article = Article.find(params[:article_id])
     @comment = Comment.new(comment_params)
     authorize @comment
-    @comment.author_id = current_author.id if current_author
+    @comment.user_id = current_user.id if current_user
     @comment.commentable = @article
   end
 
@@ -67,17 +67,17 @@ class CommentsController < ApplicationController
     @author = Author.find(params[:author_id])
     @comment = Comment.new(comment_params)
     authorize @comment
-    @comment.author_id = current_author.id if current_author
+    @comment.user_id = current_user.id if current_user
     @comment.commentable = @author
   end
 
 
-  def check_current_author
-    if !current_author
+  def check_current_user
+    if !current_user
       session[:comment_content] = comment_params[:content]
       session[:commentable_type] = @comment.commentable_type
       session[:commentable_id] = @comment.commentable_id
-      authenticate_author!
+      authenticate_user!
     end
   end
 end

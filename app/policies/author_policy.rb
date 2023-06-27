@@ -25,6 +25,7 @@ class AuthorPolicy < ApplicationPolicy
     # user != nil && record == current_author
   end
 
+
   # def update?
   #   record.authors.include?(author)
   # end

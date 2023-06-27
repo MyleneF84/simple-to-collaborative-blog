@@ -23,6 +23,6 @@ class CommentPolicy < ApplicationPolicy
   # end
 
   def destroy?
-    record.author == author
+    record.user == user
   end
 end

@@ -1,19 +1,12 @@
-class Author < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
-  has_many :contributions, dependent: :nullify
+class Author < User
+  has_many :contributions, inverse_of: :author, dependent: :nullify
   has_many :articles, through: :contributions
-  has_many :comments, as: :commentable
 
-  belongs_to :profile
-  delegate_missing_to :profile
+  # self.abstract_class = true
+  # delegate_missing_to :user
 
-  validates :email, presence: true
+  # validates :email, presence: true
 
-  def full_name
-    "#{first_name} #{last_name.chr.capitalize}."
-  end
+
+
 end

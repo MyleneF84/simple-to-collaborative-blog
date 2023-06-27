@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_author!
+  before_action :authenticate_user!
 
   include Pundit::Authorization
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -14,7 +14,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if current_author
+    if session[:commentable_type]
+      commentable = session[:commentable_type].constantize.find(session[:commentable_id])
+      Comment.create!(content: session[:comment_content], commentable: commentable, user: resource )
+      polymorphic_path(commentable)
+    elsif current_author
       authorspace_root_path
     else
       root_path

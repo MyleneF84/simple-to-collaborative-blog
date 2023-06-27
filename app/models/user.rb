@@ -4,10 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :profile
-  validates :email, presence: true
+  has_many :comments, as: :commentable
 
-  delegate_missing_to :profile
+  validates :first_name, :last_name, :email, presence: true
+
+  # delegate_missing_to :profile
 
   def full_name
     "#{first_name} #{last_name.chr.capitalize}."

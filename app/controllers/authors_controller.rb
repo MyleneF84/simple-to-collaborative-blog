@@ -2,7 +2,6 @@ class AuthorsController < ApplicationController
   skip_before_action :authenticate_user!, only: :show
 
   def new
-    @profile = Profile.new
     @author = Author.new
     authorize @author
   end
@@ -22,6 +21,7 @@ class AuthorsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
 
   private
 

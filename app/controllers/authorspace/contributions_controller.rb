@@ -1,5 +1,5 @@
 class Authorspace::ContributionsController < Authorspace::BaseController
-  skip_before_action :authenticate_author!, only: :new
+  # skip_before_action :authenticate_author!, only: :new
 
   def new
     @article = Article.find(params[:article_id])
