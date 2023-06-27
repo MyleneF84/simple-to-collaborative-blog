@@ -1,5 +1,5 @@
 class ContributionsController < ApplicationController
-  skip_before_action :authenticate_user!, only: :new
+  before_action :authenticate_user!
 
   def new
     @article = Article.find(params[:article_id])

@@ -22,7 +22,7 @@
     <ul>
     <% @article.comments.each do |comment| %>
       <li>
-      <%= comment.content %> - <%= comment.author.full_name %> &nbsp <%= link_to "🗑", authorspace_article_comment_path(@article, comment), data: {turbo_method: :delete} if policy(comment).destroy? %>
+      <%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", authorspace_article_comment_path(@article, comment), data: {turbo_method: :delete} if policy(comment).destroy? %>
       </li>
       <% end %>
     </ul>

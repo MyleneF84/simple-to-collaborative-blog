@@ -23,6 +23,6 @@ class Authorspace::CommentPolicy < Authorspace::BasePolicy
   # end
 
   def destroy?
-    record.author == author
+    record.user == author
   end
 end

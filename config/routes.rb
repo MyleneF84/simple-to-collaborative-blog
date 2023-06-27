@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  devise_for :authors
+  # devise_for :authors
 
   # Defines the root path route ("/")
   root "pages#home"
@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   end
 
   resources :authors, only: %i[show new destroy]
+
+  get "become_author", to: "users#become_author"
+
 
   namespace :authorspace do
     get '/', to: "pages#home", as: :root

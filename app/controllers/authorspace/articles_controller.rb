@@ -1,5 +1,5 @@
 class Authorspace::ArticlesController < Authorspace::BaseController
-  skip_before_action :authenticate_author!, only: %i[index show]
+  # skip_before_action :authenticate_author!, only: %i[index show]
 
   def index
     @articles = policy_scope(Article).includes(:authors)
@@ -47,12 +47,12 @@ class Authorspace::ArticlesController < Authorspace::BaseController
 
   def edit
     @article = Article.find(params[:id])
-    authorize [:authorspace, @article]
+    authorize @article
   end
 
   def update
     @article = Article.find(params[:id])
-    authorize [:authorspace, @article]
+    authorize @article
     if @article.update(article_params)
       redirect_to authorspace_article_path(@article)
     else
@@ -62,7 +62,7 @@ class Authorspace::ArticlesController < Authorspace::BaseController
 
   def destroy
     @article = Article.find(params[:id])
-    authorize [:authorspace, @article]
+    authorize  @article
     @article.destroy
     redirect_to authorspace_articles_path, status: :see_other
   end
@@ -70,6 +70,6 @@ class Authorspace::ArticlesController < Authorspace::BaseController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :original_author, tag_list: [])
+    params.require(:article).permit(:title, :content, tag_list: [])
   end
 end

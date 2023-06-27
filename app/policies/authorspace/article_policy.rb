@@ -19,7 +19,6 @@ class Authorspace::ArticlePolicy < Authorspace::BasePolicy
   end
 
   def update?
-    # binding_pry
     record.authors.include?(author)
   end
 

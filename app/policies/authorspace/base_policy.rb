@@ -1,4 +1,4 @@
-class Authorspace::BasePolicy < ApplicationPolicy
+class Authorspace::BasePolicy 
   attr_reader :author, :record
 
   def initialize(author, record)

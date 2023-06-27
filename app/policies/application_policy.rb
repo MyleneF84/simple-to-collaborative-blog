@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationPolicy
-  attr_reader :author, :record
+  attr_reader :user, :record
 
-  def initialize(author, record)
-    @author = author
+  def initialize(user, record)
+    @user = user
     @record = record
   end
 
@@ -41,8 +41,8 @@ class ApplicationPolicy
   end
 
   class Scope
-    def initialize(author, scope)
-      @author = author
+    def initialize(user, scope)
+      @user = user
       # @scope = scope
       @scope = scope.is_a?(Array) ? scope.last : scope
 
@@ -55,6 +55,6 @@ class ApplicationPolicy
 
     private
 
-    attr_reader :author, :scope
+    attr_reader :user, :scope
   end
 end

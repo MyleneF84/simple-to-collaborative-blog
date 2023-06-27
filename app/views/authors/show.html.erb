@@ -19,7 +19,7 @@
   <p>Comments : </p>
     <ul>
     <% @author.comments.each do |comment| %>
-      <li><%= comment.content %> - <%= comment.author.full_name %> &nbsp <%= link_to "🗑", author_comment_path(@author, comment), data: {turbo_method: :delete} if policy(comment).destroy? %></li>
+      <li><%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", author_comment_path(@author, comment), data: {turbo_method: :delete} if policy(comment).destroy? %></li>
       <% end %>
     </ul>
 </div>

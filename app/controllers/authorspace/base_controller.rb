@@ -1,16 +1,26 @@
 class Authorspace::BaseController < ApplicationController
-  before_action :authenticate_author!
+  # skip_before_action :authenticate_author!, only: :already_here?
+  before_action :already_here?
+  # before_action :authenticate_author!
 
-  # def policy_scope(scope)
-  #   super([:authorspace, scope])
+  def policy_scope(scope)
+    super([:authorspace, scope])
+  end
+
+  def authorize(record, query = nil)
+    super([:authorspace, record], query)
+  end
+
+  # def pundit_user
+  #   current_author
   # end
 
-  # def authorize(record, query = nil)
-  #   super([:authorspace, record], query)
-  # end
+  def current_author
+    current_user
+  end
 
-  def pundit_user
-    current_author
+  def already_here?
+    current_user.type == "Author"
   end
 
   def after_sign_in_path_for(resource)

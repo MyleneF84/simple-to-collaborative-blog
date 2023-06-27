@@ -11,7 +11,7 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    user.is_a?(Author)
   end
 
   def new?
@@ -19,7 +19,9 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def update?
-    record.authors.include?(author)
+    record.authors.include?(user)
+
+    # false
   end
 
   def edit?
@@ -27,6 +29,7 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def destroy?
-    record.authors.include?(author)
+    record.authors.include?(user)
+    # false
   end
 end
