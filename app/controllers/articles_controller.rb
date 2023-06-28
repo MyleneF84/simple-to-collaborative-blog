@@ -2,10 +2,10 @@ class ArticlesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
-    @articles = policy_scope(Article).includes(:authors).page(params[:page])
+    @articles = policy_scope(Article).includes(:authors)
     if params[:tag]
       @title_tags = true
-      @articles = Article.includes(:authors).tagged_with(params[:tag]).page(params[:page])
+      @articles = Article.includes(:authors).tagged_with(params[:tag])
     end
   end
 

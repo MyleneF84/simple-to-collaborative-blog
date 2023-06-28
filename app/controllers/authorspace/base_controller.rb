@@ -1,5 +1,5 @@
 class Authorspace::BaseController < ApplicationController
-  before_action :already_here?
+  # before_action :already_here?
   before_action :authorize_author!
 
 
@@ -15,9 +15,9 @@ class Authorspace::BaseController < ApplicationController
     current_user
   end
 
-  def already_here?
-    current_user.type == "Author"
-  end
+  # def already_here?
+  #   current_user.type == "Author"
+  # end
 
   def authorize_author!
     redirect_to root_path if !has_access?
