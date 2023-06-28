@@ -6,6 +6,8 @@ class Article < ApplicationRecord
   validates :title, :content, presence: true
 
   acts_as_taggable_on :tags
+  
+  paginates_per 20
 
   def names_list
     case authors.count

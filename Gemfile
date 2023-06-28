@@ -49,12 +49,20 @@ gem "sassc-rails"
 # gem "image_processing", "~> 1.2"
 
 gem "faker"
+
 gem "simple_form"
+
 gem 'acts-as-taggable-on'
+
 gem "devise"
+
 gem "autoprefixer-rails"
+
 gem "font-awesome-sass"
+
 gem "pundit"
+
+gem 'kaminari'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
