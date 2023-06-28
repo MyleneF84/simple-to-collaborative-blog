@@ -1,7 +1,7 @@
 class Authorspace::BaseController < ApplicationController
   # skip_before_action :authenticate_author!, only: :already_here?
-  before_action :already_here?
-  # before_action :authenticate_author!
+  # before_action :authenticate_user!
+  before_action :authorize_author!
 
   def policy_scope(scope)
     super([:authorspace, scope])
@@ -19,9 +19,15 @@ class Authorspace::BaseController < ApplicationController
     current_user
   end
 
-  def already_here?
-    current_user.type == "Author"
+
+  def authorize_author!
+    redirect_to root_path if !has_access?
   end
+
+  def has_access?
+    current_user.spaces.pluck(:name).include?("Authorspace")
+  end
+
 
   def after_sign_in_path_for(resource)
     if session[:commentable_type]
