@@ -1,8 +1,6 @@
 class Authorspace::AuthorsController < Authorspace::BaseController
-  # skip_before_action :authenticate_author!, only: :show
 
   def new
-    @profile = Profile.new
     @author = Author.new
     authorize @author
   end
@@ -26,6 +24,6 @@ class Authorspace::AuthorsController < Authorspace::BaseController
   private
 
   def author_params
-    params.permit(:author).require(:email, :profile_id)
+    params.permit(:author).require(:email)
   end
 end

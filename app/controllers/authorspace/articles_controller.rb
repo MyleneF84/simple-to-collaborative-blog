@@ -1,5 +1,4 @@
 class Authorspace::ArticlesController < Authorspace::BaseController
-  # skip_before_action :authenticate_author!, only: %i[index show]
 
   def index
     @articles = policy_scope(Article).includes(:authors)
@@ -29,15 +28,9 @@ class Authorspace::ArticlesController < Authorspace::BaseController
     Article.transaction do
       begin
         @article.save!
-        # if article_params[:original_author].present?
           Contribution.create!(author_id: current_author.id, article_id: @article.id)
-        # else
-        #   Author.create!(first_name: params[:author][:first_name], last_name: params[:author][:last_name])
-        #   Contribution.create!(author_id: Author.last.id, article_id: @article.id)
-        # end
       rescue => error
         puts "Error: #{error}"
-        # raise ActiveRecord::Rollback
         render :new and return
       else
         redirect_to authorspace_article_path(@article)

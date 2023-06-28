@@ -10,7 +10,11 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :email, presence: true
 
-  # delegate_missing_to :profile
+  after_create :allow_userspace_access
+
+  def allow_userspace_access
+    Access.create!(user_id: User.last.id, space_id: 2)
+  end
 
   def full_name
     "#{first_name} #{last_name.chr.capitalize}."

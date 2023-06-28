@@ -17,14 +17,7 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
-    # if params[:author_id]
-    #   @author = Author.find(params[:author_id])
-    #   @article.original_author = @author.id
-    # else
-    #   @author = Author.new
-    # end
     @author = current_user
-    # binding_pry
     authorize @article
   end
 
@@ -36,15 +29,9 @@ class ArticlesController < ApplicationController
     Article.transaction do
       begin
         @article.save!
-        # if article_params[:original_author].present?
           Contribution.create!(author_id: current_user.id, article_id: @article.id)
-        # else
-        #   Author.create!(first_name: params[:author][:first_name], last_name: params[:author][:last_name])
-        #   Contribution.create!(author_id: Author.last.id, article_id: @article.id)
-        # end
       rescue => error
         puts "Error: #{error}"
-        # raise ActiveRecord::Rollback
         render :new and return
       else
         redirect_to article_path(@article)
@@ -80,6 +67,6 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :original_author, tag_list: [])
+    params.require(:article).permit(:title, :content, tag_list: [])
   end
 end

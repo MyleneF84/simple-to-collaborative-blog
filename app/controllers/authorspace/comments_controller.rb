@@ -1,5 +1,4 @@
 class Authorspace::CommentsController < Authorspace::BaseController
-  # skip_before_action :authenticate_author!, only: :create
   before_action :set_article, only: :new
   before_action :set_commentable, only: :create
   before_action :check_current_author, only: :create

@@ -1,5 +1,4 @@
 class Authorspace::ContributionsController < Authorspace::BaseController
-  # skip_before_action :authenticate_author!, only: :new
 
   def new
     @article = Article.find(params[:article_id])
@@ -12,7 +11,7 @@ class Authorspace::ContributionsController < Authorspace::BaseController
     @contribution = Contribution.new(contribution_params)
     authorize @contribution
     @contribution.article = @article
-    @contribution.author = current_author
+    @contribution.author_id = current_author.id
     if @contribution.save
       @article.content = @contribution.content
       @article.save

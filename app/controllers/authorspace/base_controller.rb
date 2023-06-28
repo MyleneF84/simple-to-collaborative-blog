@@ -1,6 +1,4 @@
 class Authorspace::BaseController < ApplicationController
-  # skip_before_action :authenticate_author!, only: :already_here?
-  # before_action :authenticate_user!
   before_action :authorize_author!
 
   def policy_scope(scope)
@@ -10,10 +8,6 @@ class Authorspace::BaseController < ApplicationController
   def authorize(record, query = nil)
     super([:authorspace, record], query)
   end
-
-  # def pundit_user
-  #   current_author
-  # end
 
   def current_author
     current_user

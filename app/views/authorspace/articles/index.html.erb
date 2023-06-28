@@ -20,9 +20,7 @@
         <% if article.authors.empty? %>
           <small><%= "Deactivated user" %></small>
         <% else %>
-          <% article.authors.uniq.each do |author| %>
-            <%= link_to author.full_name, authorspace_author_path(author) %>
-          <% end %>
+          <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, author_path(author)) : (author) }.join.html_safe %>
         <% end %>
     </li>
   <% end %>
