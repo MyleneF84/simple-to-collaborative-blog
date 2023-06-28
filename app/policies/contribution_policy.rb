@@ -8,7 +8,6 @@ class ContributionPolicy < ApplicationPolicy
 
   def create?
     user.is_a?(Author)
-    # user.type == "Author"
   end
 
   def new?

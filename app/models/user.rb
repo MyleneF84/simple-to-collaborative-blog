@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :comments, as: :commentable
+  has_many :accesses
+  has_many :spaces, through: :accesses
 
   validates :first_name, :last_name, :email, presence: true
 
@@ -12,6 +14,10 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name.chr.capitalize}."
+  end
+
+  def has_access?
+    spaces.pluck(:name).include?("Authorspace")
   end
 
 end

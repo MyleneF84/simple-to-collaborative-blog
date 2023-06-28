@@ -5,7 +5,7 @@ class Authorspace::ArticlePolicy < Authorspace::BasePolicy
       scope.all
     end
   end
-
+  
   def show?
     true
   end
