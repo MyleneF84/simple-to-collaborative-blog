@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  helper_method :current_author, :current_namespace
 
   include Pundit::Authorization
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -16,12 +17,10 @@ class ApplicationController < ActionController::Base
   def current_author
     current_user if current_user.is_a?(Author)
   end
-  helper_method :current_author
 
   def current_namespace
     user_signed_in? ? "userspace" : "publicspace"
   end
-  helper_method :current_namespace
 
   def after_sign_in_path_for(resource)
     if session[:commentable_type]

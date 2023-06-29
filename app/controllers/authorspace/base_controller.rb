@@ -9,10 +9,6 @@ class Authorspace::BaseController < ApplicationController
     super([:authorspace, record], query)
   end
 
-  def current_author
-    current_user
-  end
-
   def current_namespace
     "authorspace"
   end
