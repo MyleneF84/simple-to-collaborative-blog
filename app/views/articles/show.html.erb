@@ -20,7 +20,7 @@
 <div>
   <p>Comments : </p>
     <ul>
-    <% @article.comments.each do |comment| %>
+    <% @article.comments.includes(:user).each do |comment| %>
       <li>
       <%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", article_comment_path(@article, comment), data: {turbo_method: :delete} if policy(comment).destroy? %>
       </li>

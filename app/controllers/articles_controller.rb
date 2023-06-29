@@ -1,11 +1,24 @@
 class ArticlesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
+  include ActionController::Live
+
 
   def index
-    @articles = policy_scope(Article).includes(:authors).page(params[:page])
+    @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
     if params[:tag]
       @title_tags = true
-      @articles = Article.includes(:authors).tagged_with(params[:tag]).page(params[:page])
+      @articles = Article.eager_load(:authors).tagged_with(params[:tag]).page(params[:page])
+    end
+    respond_to do |format|
+      format.html
+      format.csv { send_stream(filename: "articles-#{Date.today}.csv") do |stream|
+          stream.write "id,Title,By:\n"
+          @articles.find_each do |article|
+            stream.write "#{article.id},#{article.title},#{article.authors.map(&:full_name).join('- ')}\n"
+        end
+      end
+      }
+      format.pdf { send_data Article.to_pdf, filename: "articles-#{Date.today}.pdf" }
     end
   end
 
