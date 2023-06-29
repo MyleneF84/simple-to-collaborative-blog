@@ -13,6 +13,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name])
   end
 
+  def current_author
+    current_user if current_user.is_a?(Author)
+  end
+  helper_method :current_author
+
+  def current_namespace
+    user_signed_in? ? "userspace" : "publicspace"
+  end
+  helper_method :current_namespace
+
   def after_sign_in_path_for(resource)
     if session[:commentable_type]
       commentable = session[:commentable_type].constantize.find(session[:commentable_id])
@@ -28,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   def user_not_authorized
-    flash[:alert] = "You are not authorized to perform this action."
+    flash[:alert] = "Become an author to be authorized to perform this action."
     # redirect_back(fallback_location: root_path)
     # redirect_to authorspace_root_path
     redirect_to(request.referrer || root_path)

@@ -1,0 +1,19 @@
+          <li class="nav-item active">
+            <%= link_to "Home", authorspace_root_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "My posts", authorspace_author_path(current_author), class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <small class="nav-link"> 🖋 Hey <%= current_author.full_name %> !</small>
+          </li>
+          <li class="nav-item dropdown">
+          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+          </a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <%= link_to "Userspace", root_path, class: "dropdown-item" %>
+              <%= link_to "Authorspace", authorspace_root_path, class: "dropdown-item" %>
+              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+            </div>
+          </li>
