@@ -28,6 +28,9 @@
 
 <%= link_to "Create Article", new_article_path, class:"btn btn-primary" %>
 
+<%= link_to "Download CSV", articles_path(format: :csv, tag: params[:tag]), class:"btn btn-success" %>
+<%= link_to "Download PDF", articles_path(format: :pdf, tag: params[:tag]), class:"btn btn-secondary" %>
+
 <div class="mt-3 d-flex justify-content-center">
   <%= paginate @articles, window: 2 %>
 </div>

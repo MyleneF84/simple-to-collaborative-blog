@@ -1,4 +1,6 @@
 class Article < ApplicationRecord
+  include ExportPdf
+
   has_many :contributions, dependent: :destroy
   has_many :authors, through: :contributions
   has_many :comments, as: :commentable, dependent: :destroy
@@ -10,7 +12,7 @@ class Article < ApplicationRecord
   paginates_per 20
 
   def names_list
-    case authors.count
+    case authors.length
       when 1
         [authors.first]
       when 2
