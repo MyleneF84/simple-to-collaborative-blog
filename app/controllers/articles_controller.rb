@@ -2,7 +2,6 @@ class ArticlesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
   include ActionController::Live
 
-
   def index
     @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
     if params[:tag]

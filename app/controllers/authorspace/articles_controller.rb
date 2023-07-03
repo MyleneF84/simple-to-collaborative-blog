@@ -1,10 +1,10 @@
 class Authorspace::ArticlesController < Authorspace::BaseController
 
   def index
-    @articles = policy_scope(Article).includes(:authors).page(params[:page])
+    @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
     if params[:tag]
       @title_tags = true
-      @articles = Article.includes(:authors).tagged_with(params[:tag]).page(params[:page])
+      @articles = Article.eager_load(:authors).tagged_with(params[:tag]).page(params[:page])
     end
   end
 
@@ -63,6 +63,6 @@ class Authorspace::ArticlesController < Authorspace::BaseController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, tag_list: [])
+    params.require(:article).permit(:title, :content, :group_id, tag_list: [])
   end
 end

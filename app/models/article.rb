@@ -5,6 +5,10 @@ class Article < ApplicationRecord
   has_many :authors, through: :contributions
   has_many :comments, as: :commentable, dependent: :destroy
 
+
+  belongs_to :group
+  # has_many :authors, through: :group
+
   validates :title, :content, presence: true
 
   acts_as_taggable_on :tags
