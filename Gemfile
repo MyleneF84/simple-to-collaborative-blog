@@ -67,7 +67,7 @@ gem 'kaminari'
 gem "prawn", "~> 2.4"
 gem "prawn-table", "~> 0.2.2"
 
-gem 'bullet'
+# gem 'bullet'
 
 
 group :development, :test do

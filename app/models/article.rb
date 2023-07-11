@@ -2,18 +2,19 @@ class Article < ApplicationRecord
   include ExportPdf
 
   has_many :contributions, dependent: :destroy
-  has_many :authors, through: :contributions
+  has_many :writers, through: :contributions, source: :author
   has_many :comments, as: :commentable, dependent: :destroy
 
-
-  belongs_to :group
-  # has_many :authors, through: :group
+  belongs_to :group, optional: true
+  has_many :authors, through: :group
 
   validates :title, :content, presence: true
 
   acts_as_taggable_on :tags
 
   paginates_per 20
+
+  TAGS = ["Ruby", "Rails", "Front-end", "Back-end"]
 
   def names_list
     case authors.length
@@ -26,5 +27,13 @@ class Article < ApplicationRecord
         rest = " #{x} other#{ x > 1 ? "s" : ""}"
         [authors.first, ', ', authors.second, ' &', rest]
       end
+  end
+
+  def has_group?
+    !group.nil?
+  end
+
+  def authors
+    group_id.present? ? super : writers
   end
 end

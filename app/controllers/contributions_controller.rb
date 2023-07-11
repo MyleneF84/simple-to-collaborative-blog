@@ -12,7 +12,7 @@ class ContributionsController < ApplicationController
     @contribution = Contribution.new(contribution_params)
     authorize @contribution
     @contribution.article = @article
-    @contribution.author_id = current_user.id
+    @contribution.author = current_user
     if @contribution.save
       @article.content = @contribution.content
       @article.save

@@ -3,10 +3,10 @@ class ArticlesController < ApplicationController
   include ActionController::Live
 
   def index
-    @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
+    @articles = policy_scope(Article).includes(:group).eager_load(:authors).page(params[:page])
     if params[:tag]
       @title_tags = true
-      @articles = Article.eager_load(:authors).tagged_with(params[:tag]).page(params[:page])
+      @articles = Article.includes(:group).eager_load(:authors).tagged_with(params[:tag]).page(params[:page])
     end
     respond_to do |format|
       format.html
@@ -37,6 +37,8 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     @author = current_user
     authorize @article
+    # binding.irb
+    set_group
 
     Article.transaction do
       begin
@@ -54,12 +56,13 @@ class ArticlesController < ApplicationController
   def edit
     @article = Article.find(params[:id])
     authorize @article
-
   end
 
   def update
     @article = Article.find(params[:id])
     authorize @article
+
+    set_group
 
     if @article.update(article_params)
       redirect_to article_path(@article)
@@ -79,6 +82,16 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, tag_list: [])
+    params.require(:article).permit(:title, :content, :group_id, author_ids: [], tag_list: [])
+  end
+
+  def set_group
+    if article_params[:author_ids] != [""]
+      list = article_params[:author_ids].drop(1).reverse.map { |id| {author_id: id.to_i} }
+      @group = Group.create!(memberships_attributes: list)
+      @article.group = @group
+    else article_params[:group_id].present?
+      @article.group_id = article_params[:group_id]
+    end
   end
 end
