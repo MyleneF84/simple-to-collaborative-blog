@@ -5,6 +5,10 @@ class Authorspace::BaseController < ApplicationController
     super([:authorspace, scope])
   end
 
+  def policy(scope)
+    super([:authorspace, scope])
+  end
+
   def authorize(record, query = nil)
     super([:authorspace, record], query)
   end

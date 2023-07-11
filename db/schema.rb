@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_27_121214) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_30_112642) do
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "space_id", null: false
@@ -25,6 +25,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_121214) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "group_id"
+    t.index ["group_id"], name: "index_articles_on_group_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -45,6 +47,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_121214) do
     t.integer "author_id"
     t.index ["article_id"], name: "index_contributions_on_article_id"
     t.index ["author_id"], name: "index_contributions_on_author_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer "author_id", null: false
+    t.integer "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_memberships_on_author_id"
+    t.index ["group_id"], name: "index_memberships_on_group_id"
   end
 
   create_table "spaces", force: :cascade do |t|
@@ -101,7 +117,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_121214) do
 
   add_foreign_key "accesses", "spaces"
   add_foreign_key "accesses", "users"
+  add_foreign_key "articles", "groups"
   add_foreign_key "comments", "users"
   add_foreign_key "contributions", "articles"
+  add_foreign_key "memberships", "groups"
+  add_foreign_key "memberships", "users", column: "author_id"
   add_foreign_key "taggings", "tags"
 end

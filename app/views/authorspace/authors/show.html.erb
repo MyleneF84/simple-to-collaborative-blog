@@ -10,9 +10,9 @@
 
 
 <% if policy(@author).new_article? %>
-  <%= link_to "New article", new_authorspace_author_article_path(@author)  %>
+  <%= link_to "New article", new_authorspace_author_article_path(@author), class: "btn btn-primary"   %>
 <% end %>
-<%= link_to "Delete", authorspace_author_path(@author), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy?%>
+<%= link_to "Delete my profile", authorspace_author_path(@author), class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy? %>
 
 <hr>
 <div>

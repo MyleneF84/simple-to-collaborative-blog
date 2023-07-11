@@ -1,6 +1,16 @@
 <%= simple_form_for @article do |f| %>
   <%= f.input :title %>
   <%= f.input :content %>
-  <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
+  <%= f.input :tag_list, as: :check_boxes, collection: Article::TAGS %>
+  <div class="row g-3">
+    <div class="col">
+      <%= f.input :group_id, collection: current_user.groups, label_method: :id, label: "Collaborative Team", include_blank: true %>
+    </div>
+    <div class="col">
+    <%= f.label "Create a new group" %> <br>
+    <%#= f.collection_check_boxes :author_ids, Author.where.not(id: current_user.id), :id, :full_name %>
+    <%= f.collection_check_boxes :author_ids, Author.all, :id, :full_name %>
+    </div>
+  </div>
   <%= f.submit "Create", class: "btn btn-primary" %>
 <% end %>

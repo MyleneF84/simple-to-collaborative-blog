@@ -2,5 +2,8 @@
   <%= f.input :title %>
   <%= f.input :content %>
   <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
+  <%= f.label "Update your group" %> <br>
+  <%= f.input :group_id, collection: current_user.groups, label_method: :id, label: "Collaborative Team", include_blank: true %>
+  <%= f.collection_check_boxes :author_ids, Author.all, :id, :full_name %>
   <%= f.submit "Update", class:"btn btn-primary" %>
 <% end %>

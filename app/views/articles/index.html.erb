@@ -17,7 +17,7 @@
   <% @articles.each do |article| %>
     <li>
       <%= link_to article.title, article_path(article) %> -
-        <% if article.authors.empty? %>
+        <% if article.writers.empty? %>
           <small><%= "Deactivated user" %></small>
         <% else %>
           <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, author_path(author)) : (author) }.join.html_safe %>
