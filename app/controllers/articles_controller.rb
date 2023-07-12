@@ -37,7 +37,6 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
     @author = current_user
     authorize @article
-    # binding.irb
     set_group
 
     Article.transaction do

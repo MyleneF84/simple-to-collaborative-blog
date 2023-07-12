@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+
   helper_method :current_author, :current_namespace
 
   include Pundit::Authorization
