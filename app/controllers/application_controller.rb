@@ -23,6 +23,8 @@ class ApplicationController < ActionController::Base
     user_signed_in? ? "userspace" : "publicspace"
   end
 
+
+
   def after_sign_in_path_for(resource)
     if session[:commentable_type]
       commentable = session[:commentable_type].constantize.find(session[:commentable_id])
