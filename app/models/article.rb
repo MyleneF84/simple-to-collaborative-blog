@@ -29,11 +29,7 @@ class Article < ApplicationRecord
       end
   end
 
-  def has_group?
-    !group.nil?
-  end
-
   def authors
-    group_id.present? ? super : writers
+    group.present? ? super : writers
   end
 end
