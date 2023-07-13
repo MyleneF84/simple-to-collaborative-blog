@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
+
   include ActionController::Live
 
   def index
@@ -81,12 +82,12 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :group_id, author_ids: [], tag_list: [])
+    params.require(:article).permit(:title, :content, :group_id, list_ids: [], tag_list: [])
   end
 
   def set_group
-    if article_params[:author_ids] != [""]
-      list = article_params[:author_ids].drop(1).reverse.map { |id| {author_id: id.to_i} }
+    if article_params[:list_ids] != [""]
+      list = article_params[:list_ids].drop(1).reverse.map { |id| {author_id: id.to_i} }
       @group = Group.create!(memberships_attributes: list)
       @article.group = @group
     else article_params[:group_id].present?

@@ -1,10 +1,9 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  include Pundit::Authorization
 
   helper_method :current_author, :current_namespace
-
-  include Pundit::Authorization
-  before_action :configure_permitted_parameters, if: :devise_controller?
 
   after_action :verify_authorized, except: %i[index home], unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
@@ -23,12 +22,18 @@ class ApplicationController < ActionController::Base
     user_signed_in? ? "userspace" : "publicspace"
   end
 
+  # def current_namespace
+  #   user_signed_in? && current_user.is_a?(Author) ? "authorspace" : !current_user.is_a?(Author) ? "userspace" : "publicspace"
+  # end
+
   def after_sign_in_path_for(resource)
     if session[:commentable_type]
       commentable = session[:commentable_type].constantize.find(session[:commentable_id])
-      Comment.create!(content: session[:comment_content], commentable: commentable, user: resource )
+      # comment = Comment.create(content: session[:comment_content], commentable: commentable, user: resource )
+      # comment ? polymorphic_path(current_namespace.to_sym, commentable) : root_path
+      Comment.create(content: session[:comment_content], commentable: commentable, user: resource )
       polymorphic_path(commentable)
-    elsif current_author
+    elsif resource.is_a?(Author)
       authorspace_root_path
     else
       root_path
