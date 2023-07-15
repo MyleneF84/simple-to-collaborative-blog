@@ -16,6 +16,8 @@ class Article < ApplicationRecord
 
   TAGS = ["Ruby", "Rails", "Front-end", "Back-end"]
 
+  attribute :list_ids
+
   def names_list
     case authors.length
       when 1
