@@ -22,13 +22,17 @@ class ApplicationController < ActionController::Base
     user_signed_in? ? "userspace" : "publicspace"
   end
 
+  def namespace
+    :authorspace if current_namespace != ("userspace" || "publicspace")
+  end
+
 
 
   def after_sign_in_path_for(resource)
     if session[:commentable_type]
       commentable = session[:commentable_type].constantize.find(session[:commentable_id])
       # comment = Comment.create(content: session[:comment_content], commentable: commentable, user: resource )
-      # comment ? polymorphic_path(current_namespace.to_sym, commentable) : root_path
+      # comment ? polymorphic_path([namespace, commentable]) : root_path
       Comment.create(content: session[:comment_content], commentable: commentable, user: resource )
       polymorphic_path(commentable)
     elsif resource.is_a?(Author)
