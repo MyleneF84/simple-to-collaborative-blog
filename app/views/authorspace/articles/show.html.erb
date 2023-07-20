@@ -14,6 +14,7 @@
   <% end %>
   <%= button_to "Delete", [:authorspace, @article], method: :delete if policy(@article).destroy? %>
   <%= link_to "Back", authorspace_articles_path %>
+  <%#= link_to "Back", URI(request.referrer) == '/edit' ? authorspace_article_path(@article) : authorspace_articles_path %>
 </div>
 <hr>
 

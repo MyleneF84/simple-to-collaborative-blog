@@ -1,0 +1,11 @@
+<h1>Articles by Group <%= @group.id %></h1>
+
+<ul>
+  <% @group.articles.each do |article| %>
+  <li>
+    <%= link_to article.title, authorspace_article_path(article) %>
+  </li>
+  <% end %>
+</ul>
+
+<%= link_to "Edit this group", edit_authorspace_author_group_path %>

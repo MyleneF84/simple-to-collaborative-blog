@@ -1,0 +1,9 @@
+<%= simple_form_for ([:authorspace, @author, @group]) do |f| %>
+  <%= f.simple_fields_for :memberships do |p| %>
+    <%#= p.collection_check_boxes :author_id, Author.all, :id, :full_name %>
+  <%= p.input :author_id, collection: Author.all, label_method: :full_name %>
+  <%= p.label "Remove this author" %>
+  <%= p.check_box :_destroy %> <br>
+  <% end %>
+  <%= f.submit "Update", class: "btn btn-primary" %>
+<% end %>

@@ -4,7 +4,6 @@ module Comments
   included do
     before_action :set_article, only: :new
     before_action :set_commentable, only: :create
-    before_action :check_current_user, only: :create
   end
 
   def new
@@ -28,7 +27,6 @@ module Comments
   def destroy
     @comment = Comment.find(params[:id])
     authorize @comment
-
     @comment.destroy
     if params[:article_id].present?
       set_article
@@ -72,15 +70,4 @@ module Comments
     @comment.user_id = current_user.id if current_user
     @comment.commentable = @author
   end
-
-
-  # def check_current_user
-  #   if !current_user
-  #     session[:comment_content] = comment_params[:content]
-  #     session[:commentable_type] = @comment.commentable_type
-  #     session[:commentable_id] = @comment.commentable_id
-  #     authenticate_user!
-  #   end
-  # end
-
 end
