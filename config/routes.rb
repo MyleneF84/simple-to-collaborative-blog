@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   authenticate :user do
     resources :articles, except: %i[index show]
   end
-  
+
   resources :articles do
     resources :contributions, only: %i[new create]
     resources :comments
@@ -23,24 +23,16 @@ Rails.application.routes.draw do
 
   namespace :authorspace do
     get '/', to: "pages#home", as: :root
-    resources :articles
-
-    resources :authors do
-      resources :articles
-    end
 
     resources :articles do
       resources :contributions, only: %i[new create]
-    end
-
-    resources :articles do
       resources :comments
     end
 
-    resources :authors do
+    resources :authors, only: %i[show new destroy] do
       resources :comments
+      resources :articles
+      resources :groups
     end
-
-    resources :authors, only: %i[show new destroy]
   end
 end

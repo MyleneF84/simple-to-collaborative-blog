@@ -6,6 +6,10 @@ class Article < ApplicationRecord
   has_many :comments, as: :commentable, dependent: :destroy
 
   belongs_to :group, optional: true
+  accepts_nested_attributes_for :group
+  has_many :memberships, through: :group
+  accepts_nested_attributes_for :memberships, reject_if: proc { |attr| attr[:author_id].blank? }
+
   has_many :authors, through: :group
 
   validates :title, :content, presence: true

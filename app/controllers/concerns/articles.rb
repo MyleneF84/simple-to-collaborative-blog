@@ -1,5 +1,4 @@
 module Articles
-  # extend ActiveSupport::Concern
 
   def index
     @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
@@ -17,15 +16,18 @@ module Articles
 
   def new
     @article = Article.new
-    @author = current_user
     authorize @article
+    @author = current_user
+    set_group
   end
 
   def create
     @article = Article.new(article_params)
     @author = current_user
     authorize @article
-    set_group
+
+    check_existing_group
+    check_new_group
 
     Article.transaction do
       begin
@@ -35,7 +37,6 @@ module Articles
         puts "Error: #{error}"
         render :new and return
       else
-        # redirect_to article_path(@article)
         redirect_to polymorphic_path([namespace, @article])
       end
     end
@@ -49,13 +50,8 @@ module Articles
   def update
     @article = Article.find(params[:id])
     authorize @article
-
-    set_group
-
     if @article.update(article_params)
-      # redirect_to article_path(@article)
       redirect_to polymorphic_path([namespace, @article])
-
     else
       render :edit
     end
@@ -64,25 +60,29 @@ module Articles
   def destroy
     @article = Article.find(params[:id])
     authorize @article
-
     @article.destroy
-    # redirect_to articles_path, status: :see_other
     redirect_to polymorphic_path([namespace, @article]), status: :see_other
   end
 
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :group_id, list_ids: [], tag_list: [])
+    params.require(:article).permit(:title, :content, :group_id, group_attributes: [:id, {memberships_attributes: [:author_id]}], tag_list: [])
   end
 
   def set_group
-    if article_params[:list_ids] != [""]
-      list = article_params[:list_ids].drop(1).reverse.map { |id| {author_id: id.to_i} }
-      @group = Group.create!(memberships_attributes: list)
-      @article.group = @group
-    else article_params[:group_id].present?
-      @article.group_id = article_params[:group_id]
+    @group = @article.build_group
+    # @group.memberships.build(author_id: current_author.id)
+    3.times {@group.memberships.build}
+  end
+
+  def check_existing_group
+    @article.group_id = article_params[:group_id] if !article_params[:group_id].nil?
+  end
+
+  def check_new_group
+    if article_params[:group_id] == "" && article_params[:group_attributes][:memberships_attributes]["0"][:author_id] == ""
+      @article.group.delete
     end
   end
 end

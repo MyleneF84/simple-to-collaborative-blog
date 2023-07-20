@@ -26,8 +26,6 @@ class ApplicationController < ActionController::Base
     :authorspace if current_namespace != ("userspace" || "publicspace")
   end
 
-
-
   def after_sign_in_path_for(resource)
     if session[:commentable_type]
       commentable = session[:commentable_type].constantize.find(session[:commentable_id])
@@ -42,7 +40,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   def user_not_authorized
     flash[:alert] = "Become an author to be authorized to perform this action."
@@ -50,7 +47,6 @@ class ApplicationController < ActionController::Base
     # redirect_to authorspace_root_path
     redirect_to(request.referrer || root_path)
   end
-
 
   private
 
