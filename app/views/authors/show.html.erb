@@ -4,27 +4,27 @@
 
 <ul>
   <% @author.articles.each do |article| %>
-    <li><%= link_to article.title, article_path(article) %></li>
+    <li><%= link_to article.title, polymorphic_path([namespace, article]) %></li>
   <% end %>
 </ul>
 
 
 <% if policy(@author).new_article? %>
-  <%= link_to "New article", new_author_article_path(@author)  %>
+  <%= link_to "New article", polymorphic_path([namespace, @author, Article]), class: "btn btn-primary"   %>
 <% end %>
-<%= link_to "Delete", author_path(@author), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy?%>
+<%= link_to "Delete my profile", polymorphic_path([namespace, @author]), class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy?%>
 
 <hr>
 <div>
   <p>Comments : </p>
     <ul>
     <% @author.comments.includes(:user).each do |comment| %>
-      <li><%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", author_comment_path(@author, comment), data: {turbo_method: :delete} if policy(comment).destroy? %></li>
+      <li><%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", polymorphic_path([namespace, @author, comment]), data: {turbo_method: :delete} if policy(comment).destroy? %></li>
       <% end %>
     </ul>
 </div>
 <div>
-  <%= render "comments/form", author: @author, comment: @comment %>
+  <%= render "#{namespace}/comments/form", author: @author, comment: @comment %>
 </div>
 
-<%= link_to "All articles", articles_path  %>
+<%= link_to "All articles", polymorphic_path([namespace, Article])  %>

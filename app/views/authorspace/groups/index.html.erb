@@ -3,8 +3,8 @@
 <ul>
   <% @groups.each do |group| %>
     <li>
-      <%= link_to "Group: #{group.id}", authorspace_author_group_path(current_author, group) %> - <%= group.authors.map(&:full_name).join(", ") %>
-      <%= link_to "🗑", authorspace_author_group_path(current_author, group), data: {turbo_method: :delete} if policy(group).destroy?  %>
+      <%= link_to "#{group.name}", authorspace_author_group_path(current_author, group) %> - <%= group.authors.map(&:full_name).join(", ") %>
+      <%= link_to "🗑", authorspace_author_group_path(current_author, group), data: {turbo_method: :delete, turbo_confirm: "Delete #{group.name} ?"} if policy(group).destroy?  %>
     </li>
   <% end %>
 </ul>

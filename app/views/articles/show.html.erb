@@ -6,14 +6,15 @@
 <p><i><%= pluralize @article.contributions.count, "contribution" %></i></p>
 <p>Posted <%= time_ago_in_words(@article.created_at) %> ago</p>
 
-<%= link_to "Add a contribution", new_article_contribution_path(@article) %>
+<%= link_to "Add a contribution", new_polymorphic_path([namespace, @article, Contribution]) %>
 
 <div class="d-flex">
   <% if policy(@article).edit? %>
-    <%= link_to "Edit", edit_article_path %> |
+    <%= link_to "Edit", edit_polymorphic_path([namespace, @article]) %> |
   <% end %>
   <%= button_to "Delete", @article, method: :delete if policy(@article).destroy? %>
-  <%= link_to "Back", articles_path %>
+  <%= link_to "Back", polymorphic_path([namespace, Article]) %>
+
 </div>
 <hr>
 
@@ -22,7 +23,7 @@
     <ul>
     <% @article.comments.includes(:user).each do |comment| %>
       <li>
-      <%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", article_comment_path(@article, comment), data: {turbo_method: :delete} if policy(comment).destroy? %>
+      <%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", polymorphic_path([namespace, @article, comment]), data: {turbo_method: :delete} if policy(comment).destroy? %>
       </li>
       <% end %>
     </ul>

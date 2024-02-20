@@ -20,7 +20,8 @@ module Comments
         redirect_to polymorphic_path([namespace, @author])
       end
     else
-      render :new
+      flash[:notice] = "Content can't be blank :/ "
+      redirect_to request.referrer
     end
   end
 

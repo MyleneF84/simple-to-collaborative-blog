@@ -20,7 +20,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    "#{first_name} #{last_name.chr.capitalize}."
+    "#{first_name.capitalize} #{last_name.chr.capitalize}."
   end
 
   def has_access?

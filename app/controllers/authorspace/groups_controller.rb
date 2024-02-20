@@ -1,4 +1,5 @@
 class Authorspace::GroupsController < Authorspace::BaseController
+
   def index
     @groups = policy_scope(Group).includes(:authors)
   end
@@ -56,6 +57,6 @@ class Authorspace::GroupsController < Authorspace::BaseController
   private
 
   def group_params
-    params.require(:group).permit(memberships_attributes: [:id, :author_id, :_destroy])
+    params.require(:group).permit(:name, memberships_attributes: [:id, :author_id, :_destroy])
   end
 end

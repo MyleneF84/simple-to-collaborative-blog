@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  author: one
-  group: one
+# one:
+#   author: pipou
+#   group: DreamTeam
 
-two:
-  author: two
-  group: two
+# two:
+#   author: mappy
+#   group: MadrigalGal

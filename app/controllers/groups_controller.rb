@@ -1,9 +1,9 @@
-class GroupsController < ApplicationController
+# class GroupsController < ApplicationController
 
 
-  private
+#   private
 
-  def group_params
-    params.require(:group).permit(memberships_attributes: [:author_id])
-  end
-end
+#   def group_params
+#     params.require(:group).permit(memberships_attributes: [:author_id])
+#   end
+# end

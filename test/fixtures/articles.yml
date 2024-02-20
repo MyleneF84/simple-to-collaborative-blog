@@ -3,9 +3,14 @@
 one:
   title: MyString
   content: MyText
-  author: one
+  group_id: 5
 
 two:
   title: MyString
   content: MyText
-  author: two
+  # group_id: 1
+  # group: MadrigalGal
+
+# three:
+#   title:
+#   content: text

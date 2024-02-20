@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   include Pundit::Authorization
 
-  helper_method :current_author, :current_namespace
+  helper_method :current_author, :current_namespace, :namespace
 
   after_action :verify_authorized, except: %i[index home], unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?

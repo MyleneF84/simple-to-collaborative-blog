@@ -16,18 +16,18 @@
 <div class="row">
   <% @articles.each do |article| %>
     <div class="col-sm-3 mt-3">
-      <div class="card">
+      <div class="card h-100">
         <div class="card-body">
-          <h5 class="card-title"><%= link_to article.title, article_path(article) %> </h5>
+          <h5 class="card-title"><%= link_to article.title, polymorphic_path([namespace, article]) %> </h5>
           <p class="card-text">
             <% if article.authors.empty? %>
               <%= "Utilisateur desactivé" %>
             <% else %>
-              <% article.authors.uniq.each do |author| %>
-                <%= link_to author.full_name, author_path(author) %>
-              <% end %>
+              <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author])) : (author) }.join.html_safe %>
             <% end %>
           </p>
+        </div>
+        <div class="card-footer text-muted">
           <p>Posted <%= time_ago_in_words(article.created_at) %> ago</p>
           <p class="card-tags"> <%= article.tags.map(&:name).join(", ") %> </p>
         </div>
@@ -36,5 +36,5 @@
   <% end %>
 </div>
 
-<%= link_to "Create new article", new_article_path, class:"btn btn-primary mt-3"  %>
-<%= link_to "See all articles", articles_path  %>
+  <%= link_to "Create new article", new_polymorphic_path([namespace, :article]), class:"btn btn-primary mt-3"  %>
+  <%= link_to "See all articles", polymorphic_path([namespace, Article]) %>

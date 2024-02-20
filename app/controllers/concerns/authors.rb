@@ -1,8 +1,14 @@
 module Authors
-  def new
-    @author = Author.new
-    authorize @author
+  extend ActiveSupport::Concern
+
+  included do
+    after_action :clean_articles, only: :destroy
   end
+
+  # def new
+  #   @author = Author.new
+  #   authorize @author
+  # end
 
   def show
     @author = Author.find(params[:id])
@@ -10,13 +16,23 @@ module Authors
     @comment = Comment.new
   end
 
-  def create
-    @author = Author.new(author_params)
+  # def create
+  #   @author = Author.new(author_params)
+  #   authorize @author
+  #   if @author.save
+  #     redirect_to authorspace_author_path(@author)
+  #   else
+  #     render :new, status: :unprocessable_entity
+  #   end
+  # end
+
+  def destroy
+    @author = current_author
     authorize @author
-    if @author.save
-      redirect_to authorspace_author_path(@author)
+    if @author.update(type: "User")
+      redirect_to root_path
     else
-      render :new, status: :unprocessable_entity
+      redirect_to request.referrer
     end
   end
 
@@ -25,4 +41,9 @@ module Authors
   def author_params
     params.permit(:author).require(:email)
   end
+
+  def clean_articles
+    Article.joins(:contributions).where(group_id: nil).where(contributions: {author_id: current_author.id}).destroy_all
+  end
+
 end

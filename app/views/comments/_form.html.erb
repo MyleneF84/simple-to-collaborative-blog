@@ -1,4 +1,4 @@
-<%= simple_form_for (@article ? [@article, @comment] : [@author, @comment]) do |f| %>
-  <%= f.input :content, label: "Your comment :" %>
+<%= simple_form_for (@article ? [namespace, @article, @comment] : [namespace, @author, @comment]) do |f| %>
+  <%= f.input :content, required: 'required', label: "Your comment :"  %>
   <%= f.submit  %>
 <% end %>

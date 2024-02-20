@@ -2,9 +2,12 @@ module Articles
 
   def index
     @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
-    if params[:tag]
+    if Article::TAGS.include?(params[:query])
       @title_tags = true
-      @articles = Article.eager_load(:authors).tagged_with(params[:tag]).page(params[:page])
+      @articles = Article.eager_load(:authors).tagged_with(params[:query]).page(params[:page])
+    else
+      sql_subquery = "title LIKE :query OR content LIKE :query"
+      @articles = @articles.where(sql_subquery, query: "%#{params[:query]}%").page(params[:page])
     end
   end
 
@@ -26,16 +29,15 @@ module Articles
     @author = current_user
     authorize @article
 
-    check_existing_group
-    check_new_group
-
     Article.transaction do
       begin
+        check_existing_group
+        check_new_group
         @article.save!
           Contribution.create!(author_id: current_user.id, article_id: @article.id)
       rescue => error
-        puts "Error: #{error}"
-        render :new and return
+        puts "Error: #{error} !!!"
+        render :new, status: :unprocessable_entity and return
       else
         redirect_to polymorphic_path([namespace, @article])
       end
@@ -67,7 +69,7 @@ module Articles
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :group_id, group_attributes: [:id, {memberships_attributes: [:author_id]}], tag_list: [])
+    params.require(:article).permit(:title, :content, :group_id, group_attributes: [:id, :name, {memberships_attributes: [:author_id]}], tag_list: [])
   end
 
   def set_group
@@ -81,7 +83,7 @@ module Articles
   end
 
   def check_new_group
-    if article_params[:group_id] == "" && article_params[:group_attributes][:memberships_attributes]["0"][:author_id] == ""
+    if article_params[:group_id] == "" && article_params[:group_attributes][:memberships_attributes].to_h.values.pluck(:author_id).all?("")
       @article.group.delete
     end
   end
