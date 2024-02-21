@@ -1,0 +1,19 @@
+.article-card {
+  background-color: #2a9d8f; /* Card background color */
+  border-color: #2a9d8f; /* Card border color */
+  color: #fff; /* Card text color */
+}
+
+.article-card:hover {
+  background-color: #f4a261; /* Card background color on hover */
+  border-color: #f4a261; /* Card border color on hover */
+}
+
+.article-card .card-title {
+  color: #fff; /* Title text color */
+  text-decoration: none;
+}
+
+.article-card .card-text {
+  color: #e9c46a; /* Link text color */
+}

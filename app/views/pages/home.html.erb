@@ -1,40 +1,50 @@
-<h1><%= @title_tags ? "Results for #{params[:tag]}" : "Trending articles" %></h1>
+<div class="container mt-4">
+  <h1 class="text-center mb-3"><%= @title_tags ? "Results for #{params[:tag]}" : "Trending articles" %></h1>
 
-<div class="row justify-content-center">
-  <div class="col-sm-8 my-3">
-    <%= form_with url: articles_path, method: :get, class: "d-flex" do %>
-      <%= text_field_tag :tag,
-            params[:tag],
-            class: "form-control",
-            placeholder: "Type a keyword"
-        %>
-      <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
-    <% end %>
+  <div class="row justify-content-center mb-3">
+    <div class="col-sm-8 my-3">
+      <%= form_with url: articles_path, method: :get, class: "d-flex" do %>
+        <%= text_field_tag :tag,
+              params[:tag],
+              class: "form-control",
+              placeholder: "Type a keyword"
+          %>
+        <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
+      <% end %>
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <% @articles.each do |article| %>
-    <div class="col-sm-3 mt-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title"><%= link_to article.title, polymorphic_path([namespace, article]) %> </h5>
-          <p class="card-text">
-            <% if article.authors.empty? %>
-              <%= "Utilisateur desactivé" %>
+  <div class="row">
+    <% @articles.each do |article| %>
+      <div class="col-lg-4 col-md-6 mb-3">
+        <div class="card article-card h-100">
+          <div class="card-body">
+            <h5><%= link_to article.title, polymorphic_path([namespace, article]), class: "card-title" %></h5>
+            <p class= "card-text">
+              <% if article.authors.empty? %>
+                <%= "Utilisateur desactivé" %>
+              <% else %>
+                <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author]), class: "card-text") : (author) }.join.html_safe %>
+              <% end %>
+            </p>
+          </div>
+          <div class="card-footer ">
+            <div class="d-flex justify-content-between align-items-center w-100">
+            <% if article.tags.present? %>
+              <p class="badge rounded-pill bg-warning text-dark m-0"> <%= article.tags.map(&:name).join(", ") %></p>
             <% else %>
-              <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author])) : (author) }.join.html_safe %>
+              <div></div>
             <% end %>
-          </p>
-        </div>
-        <div class="card-footer text-muted">
-          <p>Posted <%= time_ago_in_words(article.created_at) %> ago</p>
-          <p class="card-tags"> <%= article.tags.map(&:name).join(", ") %> </p>
+            <p class="mb-0 text-muted"><small>Posted <%= time_ago_in_words(article.created_at) %> ago</small></p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
 
-  <%= link_to "Create new article", new_polymorphic_path([namespace, :article]), class:"btn btn-primary mt-3"  %>
-  <%= link_to "See all articles", polymorphic_path([namespace, Article]) %>
+  <div >
+    <%= link_to "Create new article", new_polymorphic_path([namespace, :article]), class:"btn btn-primary"  %>
+    <%= link_to "See all articles", polymorphic_path([namespace, Article]), style: "color: #f4a261"  %>
+  </div>
+</div>
