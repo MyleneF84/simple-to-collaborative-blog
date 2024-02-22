@@ -1,4 +1,6 @@
 $btnsalmon:#e76f51;
+$emerald: #005f73;
+$light: #0a9396;
 
 .btn-primary {
     @include button-variant($btnsalmon, darken($btnsalmon, 7.5%), darken($btnsalmon, 10%), lighten($btnsalmon,5%), lighten($btnsalmon, 10%), darken($btnsalmon,30%));
@@ -8,3 +10,10 @@ $btnsalmon:#e76f51;
     @include button-outline-variant($btnsalmon, #222222, lighten($btnsalmon,5%), $btnsalmon);
 }
 
+.btn-emerald {
+  background-color: $emerald;
+}
+
+.btn-light {
+  background-color: $light;
+}
