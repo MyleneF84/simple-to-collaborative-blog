@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import DownloadButtonController from "./download_button_controller"
+application.register("download-button", DownloadButtonController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
