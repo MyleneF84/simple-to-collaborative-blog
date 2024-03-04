@@ -1,0 +1,21 @@
+.pagination {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  justify-content: center;
+}
+
+.page-link:hover {
+  color :$emerald;
+}
+
+.page-item.active .page-link {
+  background-color: $btnsalmon;
+  border-color: $btnsalmon;
+}
+
+.page-link {
+  color: $btnsalmon;
+}
