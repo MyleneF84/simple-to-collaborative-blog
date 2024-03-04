@@ -1,13 +1,14 @@
 <h1><%= @author.first_name %> <%= @author.last_name %> </h1>
-<p><%= @author.email %></p>
+<!-- <p><%= @author.email %></p> -->
 <p><%= pluralize @author.articles.count, "article" %> :</p>
 
-<ul>
+<div class="row mb-4">
   <% @author.articles.each do |article| %>
-    <li><%= link_to article.title, polymorphic_path([namespace, article]) %></li>
+  <div class="col-3">
+    <%= link_to article.title, polymorphic_path([namespace, article]) %>
+  </div>
   <% end %>
-</ul>
-
+</div>
 
 <% if policy(@author).new_article? %>
   <%= link_to "New article", polymorphic_path([namespace, @author, Article]), class: "btn btn-primary"   %>
@@ -16,13 +17,14 @@
 
 <hr>
 <div>
-  <p>Comments : </p>
+  <h3>Comments : </h3>
     <ul>
     <% @author.comments.includes(:user).each do |comment| %>
       <li><%= comment.content %> - <%= comment.user.full_name %> &nbsp <%= link_to "🗑", polymorphic_path([namespace, @author, comment]), data: {turbo_method: :delete} if policy(comment).destroy? %></li>
       <% end %>
     </ul>
 </div>
+
 <div>
   <%= render "#{namespace}/comments/form", author: @author, comment: @comment %>
 </div>

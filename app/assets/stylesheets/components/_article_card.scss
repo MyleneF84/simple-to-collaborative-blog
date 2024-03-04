@@ -1,19 +1,29 @@
 .article-card {
-  background-color: #2a9d8f; /* Card background color */
-  border-color: #2a9d8f; /* Card border color */
-  color: #fff; /* Card text color */
+  background-color: #2a9d8f;
+  border-color: #2a9d8f;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .article-card:hover {
-  background-color: #f4a261; /* Card background color on hover */
-  border-color: #f4a261; /* Card border color on hover */
+  background-color: #f4a261;
+  border-color: #f4a261;
 }
 
 .article-card .card-title {
-  color: #fff; /* Title text color */
+  color: #fff;
   text-decoration: none;
 }
 
+// .article-card .card-title:hover {
+//   background-color: lightgray;
+// }
+
+.card-tags {
+  color: lightgray;
+}
+
 .article-card .card-text {
-  color: #e9c46a; /* Link text color */
+  color: #e9c46a;
 }

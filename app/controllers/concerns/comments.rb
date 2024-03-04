@@ -15,9 +15,9 @@ module Comments
   def create
     if @comment.save
       if params[:article_id].present?
-        redirect_to polymorphic_path([namespace, @article])
+        redirect_to polymorphic_path([namespace, @article], anchor: "comments")
       else
-        redirect_to polymorphic_path([namespace, @author])
+        redirect_to polymorphic_path([namespace, @author], anchor: "comments")
       end
     else
       flash[:notice] = "Content can't be blank :/ "

@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div class="row mb-4">
+<!--  <div class="row mb-4">
   <% @articles.each_slice(2) do |chunk| %>
     <div class="col-6">
       <% chunk.each do |article| %>
@@ -29,8 +29,44 @@
     </div>
   <% end %>
 </div>
+-->
 
-<div class="button-links">
+<div class="row justify-content-center">
+  <% @articles.each do |article| %>
+  <div class="col-6 article-card w-75 mb-4">
+    <div class="card-top">
+      <p class="card-text mb-2">
+        <% if article.authors.empty? %>
+          <small><%= "Deactivated user" %></small>
+        <% else %>
+          <%= "#{article.group.name} :" if article.group.present? %>
+          <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author]), class: "card-text") : (author) }.join.html_safe %>
+        <% end %>
+      </p>
+      <p><%= time_ago_in_words(article.created_at) %> ago</p>
+    </div>
+    <div class="card-body mx-4">
+      <div class="card-title">
+        <h2><%= link_to article.title, polymorphic_path([namespace, article]), class:"card-title" %></h2>
+      </div>
+      <div class="card-tags">
+        <p><%= article.tags.pluck(:name).map {|n| "##{n}" }.join("  ") %></p
+      ></div>
+      <div class="card-bottom d-flex justify-content-between">
+        <div class="card-comments">
+          <%= link_to polymorphic_path([namespace, article], anchor: "comments"), class:"card-title" do %>
+            <i class="fa-regular fa-comment"></i>
+          <% end %>
+          <%= article.comments.present? ? (pluralize article.comments.count, "comment") : "Add a comment" %>
+        </div>
+        <i class="fa-regular fa-bookmark"></i>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="button-links mb-4">
   <%= link_to "Create Article", new_polymorphic_path([namespace, Article]), class:"btn btn-primary" %>
   <%= render "shared/downloads" if current_namespace == "authorspace" %>
 </div>

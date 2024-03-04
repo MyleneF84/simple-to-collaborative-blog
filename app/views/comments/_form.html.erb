@@ -1,4 +1,7 @@
 <%= simple_form_for (@article ? [namespace, @article, @comment] : [namespace, @author, @comment]) do |f| %>
   <%= f.input :content, required: 'required', label: "Your comment :"  %>
-  <%= f.submit  %>
+  <div class="d-flex justify-content-end">
+    <!-- turbo: false in order to properly redirect to the anchor -->
+    <%= f.submit class: "btn btn-primary", data: { turbo: false } %>
+  </div>
 <% end %>

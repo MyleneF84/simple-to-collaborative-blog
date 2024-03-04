@@ -16,7 +16,7 @@ class Article < ApplicationRecord
 
   acts_as_taggable_on :tags
 
-  paginates_per 20
+  paginates_per 10
 
   TAGS = ["Ruby", "Rails", "Front-end", "Back-end"]
 
