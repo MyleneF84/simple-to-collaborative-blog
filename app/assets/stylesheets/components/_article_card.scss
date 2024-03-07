@@ -16,9 +16,13 @@
   text-decoration: none;
 }
 
-// .article-card .card-title:hover {
-//   background-color: lightgray;
-// }
+i:hover {
+  color: $rust;
+}
+
+i.fa-bookmark.fa-solid {
+  color: $rust;
+}
 
 .card-tags {
   color: lightgray;

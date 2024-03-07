@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :articles
   end
 
+  resources :bookmarks
+
   get "become_author", to: "users#become_author"
 
 

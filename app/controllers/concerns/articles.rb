@@ -1,6 +1,7 @@
 module Articles
 
   def index
+    @bookmark = Bookmark.new
     @articles = policy_scope(Article).eager_load(:authors).page(params[:page])
     if Article::TAGS.include?(params[:query])
       @title_tags = true
@@ -87,4 +88,8 @@ module Articles
       @article.group.delete
     end
   end
+
+  # def is_bookmarked?
+  #   Bookmark.where(user_id: current_user.id, article_id: self.id).present?
+  # end
 end

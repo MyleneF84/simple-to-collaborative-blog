@@ -1,0 +1,13 @@
+<div class="row justify-content-center">
+  <div class="col-sm-8 my-3">
+  <% url = current_namespace.eql?("authorspace") ? authorspace_articles_path : articles_path %>
+    <%= form_with url: url, method: :get, class: "d-flex" do %>
+      <%= text_field_tag :query,
+            params[:query],
+            class: "form-control",
+            placeholder: "Type a keyword"
+        %>
+      <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

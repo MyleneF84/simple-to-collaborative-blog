@@ -1,39 +1,10 @@
 <h1 class="text-center mb-4"><%= @title_tags ? "Results for #{params[:query]}" : "See all articles" %></h1>
 
-<div class="row justify-content-center">
-  <div class="col-sm-8 my-3">
-    <%= form_with url: articles_path, method: :get, class: "d-flex" do %>
-      <%= text_field_tag :query,
-            params[:query],
-            class: "form-control",
-            placeholder: "Type a keyword"
-        %>
-      <%= submit_tag "Search", name: "", class: "btn btn-primary" %>
-    <% end %>
-  </div>
-</div>
-
-<!--  <div class="row mb-4">
-  <% @articles.each_slice(2) do |chunk| %>
-    <div class="col-6">
-      <% chunk.each do |article| %>
-        <%= link_to article.title, polymorphic_path([namespace, article]) %> -
-          <% if article.authors.empty? %>
-            <small><%= "Deactivated user" %></small>
-          <% else %>
-            <%= "#{article.group.name} :" if article.group.present? %>
-            <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author])) : (author) }.join.html_safe %>
-            <br>
-          <% end %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
--->
+<%= render "shared/search" %>
 
 <div class="row justify-content-center">
   <% @articles.each do |article| %>
-  <div class="col-6 article-card w-75 mb-4">
+  <div id="article__<%=article.id %>" class="col-6 article-card w-75 mb-4">
     <div class="card-top">
       <p class="card-text mb-2">
         <% if article.authors.empty? %>
@@ -50,8 +21,8 @@
         <h2><%= link_to article.title, polymorphic_path([namespace, article]), class:"card-title" %></h2>
       </div>
       <div class="card-tags">
-        <p><%= article.tags.pluck(:name).map {|n| "##{n}" }.join("  ") %></p
-      ></div>
+        <p><%= article.tags.pluck(:name).map {|n| "##{n}" }.join("  ") %></p>
+      </div>
       <div class="card-bottom d-flex justify-content-between">
         <div class="card-comments">
           <%= link_to polymorphic_path([namespace, article], anchor: "comments"), class:"card-title" do %>
@@ -59,7 +30,32 @@
           <% end %>
           <%= article.comments.present? ? (pluralize article.comments.count, "comment") : "Add a comment" %>
         </div>
-        <i class="fa-regular fa-bookmark"></i>
+
+        <!--  <button type="submit" class="btn-naked"
+          data-controller="toggle"
+          data-action="click->toggle#changeStatus"
+          data-bs-toggle="button" autocomplete="off"
+          id="<%= article.id %>" title="Save <%= article.title %>">
+            <i data-toggle-target="icon" class="fa-regular fa-bookmark"></i>
+        </button>
+        -->
+        <div class="card-bookmark d-flex">
+          <% if (article.bookmarks.where(user_id: current_user.id).present?)  %>
+            <p class="me-2">Saved !</p>
+            <%= link_to bookmark_path(current_user.bookmarks.where(article_id: article.id).pluck(:id)), data: {turbo_method: :delete} do  %>
+              <i class="fa-solid fa-bookmark"></i>
+            <% end %>
+          <% else %>
+            <%= simple_form_for @bookmark do |f| %>
+              <%= f.input :article_id, as: :hidden, input_html: {value: article.id} %>
+              <%= f.input :user_id, as: :hidden, input_html: {value: @current_user.id} %>
+              <%= f.button :button, class:"btn-naked", data: {
+                turbo: "false", controller: "toggle", action: "click->toggle#changeStatus"}  do  %>
+                <i data-toggle-target="icon" class="fa-regular fa-bookmark"></i>
+                <% end %>
+            <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

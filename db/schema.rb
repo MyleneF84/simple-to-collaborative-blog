@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_31_090132) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_04_210352) do
   create_table "accesses", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "space_id", null: false
@@ -27,6 +27,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_31_090132) do
     t.datetime "updated_at", null: false
     t.integer "group_id"
     t.index ["group_id"], name: "index_articles_on_group_id"
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "article_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_bookmarks_on_article_id"
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -119,6 +128,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_31_090132) do
   add_foreign_key "accesses", "spaces"
   add_foreign_key "accesses", "users"
   add_foreign_key "articles", "groups"
+  add_foreign_key "bookmarks", "articles"
+  add_foreign_key "bookmarks", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "contributions", "articles"
   add_foreign_key "memberships", "groups"

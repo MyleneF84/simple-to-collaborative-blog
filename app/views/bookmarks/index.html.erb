@@ -1,0 +1,11 @@
+<h1> My bookmarks</h1>
+
+<ul>
+  <div class="row justify-content-center">
+    <% @bookmarks.each do |b| %>
+      <div class="col-9">
+        <li><%= link_to b.article.title, b.article %> - <%= link_to "🗑", bookmark_path(b), data: {turbo_method: :delete} if policy(b).destroy? %></li>
+      </div>
+    <% end %>
+  </div>
+</ul>

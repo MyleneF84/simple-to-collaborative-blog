@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :comments, as: :commentable
   has_many :accesses
   has_many :spaces, through: :accesses
+  has_many :bookmarks
 
   validates :first_name, :last_name, :email, presence: true
 

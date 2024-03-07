@@ -11,6 +11,7 @@ class Article < ApplicationRecord
   accepts_nested_attributes_for :memberships, reject_if: proc { |attr| attr[:author_id].blank? }
 
   has_many :authors, through: :group
+  has_many :bookmarks
 
   validates :title, :content, presence: true
 
