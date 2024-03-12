@@ -23,3 +23,15 @@
   cursor: pointer;
   outline: inherit;
 }
+
+.card.button-links {
+  position: sticky;
+  top: 60px;
+  background-color: inherit;
+  border-radius: 5px;
+  border-color: $light;
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
+  margin-right: 58px;
+}

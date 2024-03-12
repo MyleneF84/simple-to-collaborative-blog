@@ -1,9 +1,9 @@
-<%= link_to articles_path(format: :csv, query: params[:query]), class: "btn btn-emerald", remote: true,  data: { controller: "download-button", action: "click->download-button#handleClick" } do %>
+<%= link_to articles_path(format: :csv, query: params[:query]), class: "btn btn-emerald mb-2", remote: true,  data: { controller: "download-button", action: "click->download-button#handleClick" } do %>
   <span data-download-button-target="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
   <span data-download-button-target="buttonText">Download CSV</span>
 <% end %>
 
-<%= link_to articles_path(format: :pdf, query: params[:query]), class: "btn btn-outline-primary", remote: true,  data: { controller: "download-button", action: "click->download-button#handleClick" } do %>
+<%= link_to articles_path(format: :pdf, query: params[:query]), class: "btn btn-outline-primary mb-2", remote: true,  data: { controller: "download-button", action: "click->download-button#handleClick" } do %>
   <span data-download-button-target="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
   <span data-download-button-target="buttonText">Download PDF</span>
 <% end %>

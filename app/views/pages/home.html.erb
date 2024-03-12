@@ -1,39 +1,37 @@
-<div class="container mt-4">
-  <h1 class="text-center mb-3"><%= @title_tags ? "Results for #{params[:tag]}" : "Trending articles" %></h1>
+<h1 class="text-center mb-3"><%= @title_tags ? "Results for #{params[:tag]}" : "Trending articles" %></h1>
 
-  <%= render "shared/search" %>
+<%= render "shared/search" %>
 
-  <div class="row">
-    <% @articles.each do |article| %>
-      <div class="col-lg-4 col-md-6 mb-3">
-        <div class="card article-card h-100">
-          <div class="card-body">
-            <h5><%= link_to article.title, polymorphic_path([namespace, article]), class: "card-title" %></h5>
-            <p class= "card-text">
-              <% if article.authors.empty? %>
-                <%= "Utilisateur desactivé" %>
-              <% else %>
-                <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author]), class: "card-text") : (author) }.join.html_safe %>
-              <% end %>
-            </p>
-          </div>
-          <div class="card-footer ">
-            <div class="d-flex justify-content-between align-items-center w-100">
-            <% if article.tags.present? %>
-              <p class="badge rounded-pill bg-warning text-dark m-0"> <%= article.tags.map(&:name).join(", ") %></p>
+<div class="row">
+  <% @articles.each do |article| %>
+    <div class="col-lg-4 col-md-6 mb-3">
+      <div class="card article-card h-100">
+        <div class="card-body">
+          <h5><%= link_to article.title, polymorphic_path([namespace, article]), class: "card-title" %></h5>
+          <p class= "card-text">
+            <% if article.authors.empty? %>
+              <%= "Utilisateur desactivé" %>
             <% else %>
-              <div></div>
+              <%= article.names_list.map { |author| author.is_a?(Author) ? (link_to author.full_name, polymorphic_path([namespace, author]), class: "card-text") : (author) }.join.html_safe %>
             <% end %>
-            <p class="mb-0 text-muted"><small>Posted <%= time_ago_in_words(article.created_at) %> ago</small></p>
-            </div>
+          </p>
+        </div>
+        <div class="card-footer ">
+          <div class="d-flex justify-content-between align-items-center w-100">
+          <% if article.tags.present? %>
+            <p class="badge rounded-pill bg-warning text-dark m-0"> <%= article.tags.map(&:name).join(", ") %></p>
+          <% else %>
+            <div></div>
+          <% end %>
+          <p class="mb-0 text-muted"><small>Posted <%= time_ago_in_words(article.created_at) %> ago</small></p>
           </div>
         </div>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+</div>
 
-  <div >
-    <%= link_to "Create new article", new_polymorphic_path([namespace, :article]), class:"btn btn-primary"  %>
-    <%= link_to "See all articles", polymorphic_path([namespace, Article]), style: "color: #f4a261"  %>
-  </div>
+<div >
+  <%= link_to "Create new article", new_polymorphic_path([namespace, :article]), class:"btn btn-primary"  %>
+  <%= link_to "See all articles", polymorphic_path([namespace, Article]), style: "color: #f4a261"  %>
 </div>

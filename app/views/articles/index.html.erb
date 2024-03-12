@@ -2,7 +2,11 @@
 
 <%= render "shared/search" %>
 
-<div class="row justify-content-center">
+<div class="row align-items-center">
+  <div class="col-2 card button-links">
+    <%= link_to "Create Article", new_polymorphic_path([namespace, Article]), class:"btn btn-primary mb-2 mt-2" %>
+    <%= render "shared/downloads" if current_namespace == "authorspace" %>
+  </div>
   <% @articles.each do |article| %>
   <div id="article__<%=article.id %>" class="col-6 article-card w-75 mb-4">
     <div class="card-top">
@@ -28,17 +32,8 @@
           <%= link_to polymorphic_path([namespace, article], anchor: "comments"), class:"card-title" do %>
             <i class="fa-regular fa-comment"></i>
           <% end %>
-          <%= article.comments.present? ? (pluralize article.comments.count, "comment") : "Add a comment" %>
+          <%= article.comments.present? ? (pluralize article.comments.size, "comment") : "Add a comment" %>
         </div>
-
-        <!--  <button type="submit" class="btn-naked"
-          data-controller="toggle"
-          data-action="click->toggle#changeStatus"
-          data-bs-toggle="button" autocomplete="off"
-          id="<%= article.id %>" title="Save <%= article.title %>">
-            <i data-toggle-target="icon" class="fa-regular fa-bookmark"></i>
-        </button>
-        -->
         <div class="card-bookmark d-flex">
           <% if (article.bookmarks.where(user_id: current_user.id).present?)  %>
             <p class="me-2">Saved !</p>
@@ -50,8 +45,8 @@
               <%= f.input :article_id, as: :hidden, input_html: {value: article.id} %>
               <%= f.input :user_id, as: :hidden, input_html: {value: @current_user.id} %>
               <%= f.button :button, class:"btn-naked", data: {
-                turbo: "false", controller: "toggle", action: "click->toggle#changeStatus"}  do  %>
-                <i data-toggle-target="icon" class="fa-regular fa-bookmark"></i>
+                    turbo: "false", controller: "toggle", action: "click->toggle#changeStatus"} do %>
+                      <i data-toggle-target="icon" class="fa-regular fa-bookmark"></i>
                 <% end %>
             <% end %>
           <% end %>
@@ -59,12 +54,8 @@
       </div>
     </div>
   </div>
+    <div class="col-2"></div>
   <% end %>
-</div>
-
-<div class="button-links mb-4">
-  <%= link_to "Create Article", new_polymorphic_path([namespace, Article]), class:"btn btn-primary" %>
-  <%= render "shared/downloads" if current_namespace == "authorspace" %>
 </div>
 
 <%= paginate @articles, window: 2 %>
