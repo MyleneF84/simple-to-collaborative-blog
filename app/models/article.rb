@@ -13,7 +13,10 @@ class Article < ApplicationRecord
   has_many :authors, through: :group
   has_many :bookmarks
 
-  validates :title, :content, presence: true
+  has_many_attached :photos
+  has_rich_text :rich_content
+
+  validates :title, :rich_content, presence: true
 
   acts_as_taggable_on :tags
 

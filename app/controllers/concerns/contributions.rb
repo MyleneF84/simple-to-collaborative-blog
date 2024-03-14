@@ -12,7 +12,7 @@ module Contributions
     @contribution.article = @article
     @contribution.author = current_user
     if @contribution.save
-      @article.content = @contribution.content
+      @article.rich_content = @contribution.rich_content
       @article.save
       redirect_to polymorphic_path([namespace, @article])
     else
@@ -23,7 +23,7 @@ module Contributions
   private
 
   def contribution_params
-    params.require(:contribution).permit(:author_id, :article_id, :content)
+    params.require(:contribution).permit(:author_id, :article_id, :rich_content)
   end
 
 end

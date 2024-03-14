@@ -1,7 +1,7 @@
 <h1><%= @article.title %></h1>
 <p><%= (@article.tags.map(&:name).join(", ")) if @article.tags %></p>
 
-<p><%= @article.content %></p>
+<p><%= @article.rich_content %></p>
 
 <p><i><%= pluralize @article.contributions.count, "contribution" %></i></p>
 <p>Posted <%= time_ago_in_words(@article.created_at) %> ago</p>

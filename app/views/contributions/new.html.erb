@@ -1,4 +1,4 @@
 <%= simple_form_for [namespace, @article, @contribution] do |f| %>
-  <%= f.input :content, as: :text, input_html: {value: @article.content} %>
+  <%= f.rich_text_area :rich_content, value: @article.rich_content %>
   <%= f.submit "Submit" %>
 <% end %>
