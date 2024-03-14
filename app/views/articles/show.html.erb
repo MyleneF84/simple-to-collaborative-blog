@@ -1,5 +1,14 @@
-<h1><%= @article.title %></h1>
+<h1 class="text-center"><%= @article.title %></h1>
 <p><%= (@article.tags.map(&:name).join(", ")) if @article.tags %></p>
+
+<% if @article.photo.attached? %>
+  <%= image_tag @article.photo.variant(:medium), class:"mx-auto d-block" %>
+<% end %>
+
+<!-- representation calls variant for images, and preview for previewable files.
+<% if @article.photo.representable? %>
+  <%= image_tag @article.photo.representation(resize_to_limit: [500,500]) %>
+<% end %>  -->
 
 <p><%= @article.rich_content %></p>
 
@@ -14,7 +23,6 @@
   <% end %>
   <%= button_to "Delete", @article, method: :delete if policy(@article).destroy? %>
   <%= link_to "Back", polymorphic_path([namespace, Article]) %>
-
 </div>
 <hr>
 

@@ -1,6 +1,7 @@
 <%= simple_form_for [namespace, @article] do |f| %>
   <%= f.input :title %>
   <%= f.rich_text_area :rich_content %>
+  <%= f.input :photo, as: :file %>
   <%= f.input :tag_list, as: :check_boxes, collection: ["Ruby", "Rails", "Front-end", "Back-end"] %>
   <%#= f.label "Update your group" %> <br>
   <%#= f.input :group_id, collection: current_user.groups, label_method: :id, label: "Collaborative Team", include_blank: true %>

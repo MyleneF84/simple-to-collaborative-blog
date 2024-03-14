@@ -1,5 +1,4 @@
 <h1><%= @author.first_name %> <%= @author.last_name %> </h1>
-<!-- <p><%= @author.email %></p> -->
 <p><%= pluralize @author.articles.count, "article" %> :</p>
 
 <div class="row mb-4">
@@ -11,7 +10,7 @@
 </div>
 
 <% if policy(@author).new_article? %>
-  <%= link_to "New article", polymorphic_path([namespace, @author, Article]), class: "btn btn-primary"   %>
+  <%= link_to "New article", new_polymorphic_path([namespace, Article]), class: "btn btn-primary"   %>
 <% end %>
 <%= link_to "Delete my profile", polymorphic_path([namespace, @author]), class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} if policy(@author).destroy?%>
 

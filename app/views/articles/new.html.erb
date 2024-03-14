@@ -1,6 +1,7 @@
 <%= simple_form_for [namespace, @article] do |f| %>
   <%= f.input :title %>
-  <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+  <%#= f.input :photos, as: :file, input_html: { multiple: true } %>
+  <%= f.input :photo, as: :file %>
   <%= f.rich_text_area :rich_content %>
   <div class="row mt-2">
     <div class="col-4">

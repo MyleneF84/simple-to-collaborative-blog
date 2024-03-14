@@ -21,8 +21,15 @@
       <p><%= time_ago_in_words(article.created_at) %> ago</p>
     </div>
     <div class="card-body mx-4">
-      <div class="card-title">
-        <h2><%= link_to article.title, polymorphic_path([namespace, article]), class:"card-title" %></h2>
+      <div class="card-content d-flex mb-2 align-items-center">
+        <% if article.photo.attached? %>
+        <div class="card-photo me-2">
+          <%= image_tag article.photo.variant :thumb %>
+        </div>
+        <% end %>
+        <div class="card-title">
+          <h2><%= link_to article.title, polymorphic_path([namespace, article]), class:"card-title" %></h2>
+        </div>
       </div>
       <div class="card-tags">
         <p><%= article.tags.pluck(:name).map {|n| "##{n}" }.join("  ") %></p>

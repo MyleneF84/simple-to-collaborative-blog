@@ -70,7 +70,7 @@ module Articles
   private
 
   def article_params
-    params.require(:article).permit(:title, :rich_content, :group_id, group_attributes: [:id, :name, {memberships_attributes: [:author_id]}], tag_list: [], photos: [])
+    params.require(:article).permit(:title, :rich_content, :photo, :group_id, group_attributes: [:id, :name, {memberships_attributes: [:author_id]}], tag_list: [])
   end
 
   def set_group

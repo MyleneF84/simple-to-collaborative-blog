@@ -13,7 +13,11 @@ class Article < ApplicationRecord
   has_many :authors, through: :group
   has_many :bookmarks
 
-  has_many_attached :photos
+  has_one_attached :photo do |attachable|
+    attachable.variant :thumb, resize_to_limit: [150,150]
+    attachable.variant :medium, resize_to_limit: [500,500]
+  end
+
   has_rich_text :rich_content
 
   validates :title, :rich_content, presence: true
