@@ -25,6 +25,7 @@ class Authorspace::GroupsController < Authorspace::BaseController
     if @group.save
       redirect_to authorspace_author_groups_path
     else
+      flash[:alert] = @group.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end

@@ -29,7 +29,6 @@ module Articles
     @article = Article.new(article_params)
     @author = current_user
     authorize @article
-
     Article.transaction do
       begin
         check_existing_group
@@ -88,8 +87,4 @@ module Articles
       @article.group.delete
     end
   end
-
-  # def is_bookmarked?
-  #   Bookmark.where(user_id: current_user.id, article_id: self.id).present?
-  # end
 end

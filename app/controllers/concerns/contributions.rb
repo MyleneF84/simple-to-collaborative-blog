@@ -25,5 +25,4 @@ module Contributions
   def contribution_params
     params.require(:contribution).permit(:author_id, :article_id, :rich_content)
   end
-
 end

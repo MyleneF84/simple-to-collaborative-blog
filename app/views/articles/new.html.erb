@@ -14,7 +14,14 @@
           <%= f.simple_fields_for :group  do |ff| %>
             <%= ff.input :name, label: "New Team name" %>
             <%= ff.simple_fields_for :memberships do |p| %>
-              <%= p.input :author_id, collection: Author.all, label_method: :full_name %>
+            <%= p.input :author_id, collection: Author.all, label_method: :full_name, value_method: :id %>
+              <!-- <%# Custom datalist input %>
+              <%= p.input :author_id, as: :datalist, input_html: { list: "datalist_names" } %>
+              <datalist id="datalist_names">
+                <% Author.all.each do |person| %>
+                  <option value="<%=person.id %>"><%= person.full_name %></option>
+                <% end %>
+              </datalist> -->
             <% end %>
           <% end %>
       </div>

@@ -4,13 +4,16 @@ class Group < ApplicationRecord
   has_many :articles, dependent: :destroy
   has_many :authors, through: :memberships
   validates :name, presence: true, uniqueness: true
-  # validate :valid_group
+
+  validate :unique_author_combination
 
   private
 
-  def valid_group
-    ids = authors.ids
-    if !Group.joins(:memberships).where(memberships: {author_id: ids}).group(:group_id).having("count (*) = ?", ids.size).present?
+  def unique_author_combination
+    sorted_ids = memberships.map(&:author_id).sort
+    if Group.joins(:memberships).where(memberships: {author_id: sorted_ids.first}).ids.any? do |group_id|
+      Group.find(group_id).authors.ids.sort == sorted_ids
+    end
       errors.add(:base, "This group already exists :(")
     end
   end
