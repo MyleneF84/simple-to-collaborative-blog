@@ -21,7 +21,7 @@
   <% if policy(@article).edit? %>
     <%= link_to "Edit", edit_polymorphic_path([namespace, @article]) %> |
   <% end %>
-  <%= button_to "Delete", @article, method: :delete if policy(@article).destroy? %>
+  <%= button_to "Delete", [namespace, @article], method: :delete if policy(@article).destroy? %>
   <%= link_to "Back", polymorphic_path([namespace, Article]) %>
 </div>
 <hr>

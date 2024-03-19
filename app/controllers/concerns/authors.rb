@@ -5,26 +5,11 @@ module Authors
     after_action :clean_articles, only: :destroy
   end
 
-  # def new
-  #   @author = Author.new
-  #   authorize @author
-  # end
-
   def show
     @author = Author.find(params[:id])
     authorize @author
     @comment = Comment.new
   end
-
-  # def create
-  #   @author = Author.new(author_params)
-  #   authorize @author
-  #   if @author.save
-  #     redirect_to authorspace_author_path(@author)
-  #   else
-  #     render :new, status: :unprocessable_entity
-  #   end
-  # end
 
   def destroy
     @author = current_author
@@ -45,5 +30,4 @@ module Authors
   def clean_articles
     Article.joins(:contributions).where(group_id: nil).where(contributions: {author_id: current_author.id}).destroy_all
   end
-
 end

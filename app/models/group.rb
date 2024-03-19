@@ -10,10 +10,8 @@ class Group < ApplicationRecord
   private
 
   def unique_author_combination
-    sorted_ids = memberships.map(&:author_id).sort
-    if Group.joins(:memberships).where(memberships: {author_id: sorted_ids.first}).ids.any? do |group_id|
-      Group.find(group_id).authors.ids.sort == sorted_ids
-    end
+    ids = memberships.map(&:author_id)
+    if Group.joins(:memberships).where(memberships: { author_id: ids }).group(:group_id).having('count (*) = ?', ids.size).present?
       errors.add(:base, "This group already exists :(")
     end
   end
